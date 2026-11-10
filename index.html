@@ -198,6 +198,23 @@ p { margin: 0; }
 .ig:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 24px 50px -20px rgba(15,157,85,.7); }
 .ig iframe { display: block; width: 100%; border: 0; aspect-ratio: 9 / 20; }
 .ig--post iframe { aspect-ratio: 9 / 15; }
+.mix { display: flex; gap: 4px; height: 8px; margin: 30px 0 0; }
+.mix span { border-radius: 2px; transition: opacity .4s, transform .4s var(--ease); transform-origin: 50% 100%; }
+.mix span.off { opacity: .28; }
+.mix span.on { transform: scaleY(1.8); }
+.tabs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0 18px; margin-top: 14px; }
+.tab { all: unset; box-sizing: border-box; cursor: pointer; padding: 16px 0 18px; border-top: 1px solid var(--rule); color: var(--ivory-dim); transition: color .3s, border-color .3s, transform .4s var(--ease); }
+.tab b { display: block; font-family: var(--display); font-weight: 600; font-size: clamp(18px, 1.9vw, 23px); line-height: 1.15; color: var(--ivory); transition: color .3s; }
+.tab small { display: block; margin-top: 8px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; }
+.tab:hover { transform: translateY(-3px); }
+.tab:hover b, .tab[aria-selected="true"] b { color: var(--jade-300); }
+.tab[aria-selected="true"] { border-top: 2px solid var(--jade-300); padding-top: 15px; color: var(--jade-300); }
+.tab:focus-visible { outline: 2px solid var(--jade-300); outline-offset: 4px; }
+.pillar__desc { margin: 22px 0 26px; max-width: 68ch; color: var(--ivory-dim); min-height: 3.2em; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(270px, 320px); gap: 16px; overflow-x: auto; padding-bottom: 14px; scroll-snap-type: x proximity; scrollbar-color: var(--jade-500) transparent; align-items: start; }
+.rail figure { margin: 0; display: grid; gap: 10px; scroll-snap-align: start; animation: up .7s var(--ease) both; }
+.rail figcaption { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ivory-dim); }
+.rail figcaption b { color: var(--jade-300); font-weight: 500; margin-right: 8px; }
 .more { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .link { font-family: var(--mono); font-size: 13px; color: var(--jade-300); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color .3s; }
 .link:hover { color: var(--ivory); }
@@ -278,6 +295,7 @@ p { margin: 0; }
 
 @media (max-width: 900px) {
   .hero__row, .about, .split { grid-template-columns: 1fr; }
+  .tabs { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 190px; overflow-x: auto; padding-bottom: 8px; scrollbar-color: var(--jade-500) transparent; }
   .igs { grid-template-columns: repeat(3, minmax(270px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; }
   .ig { scroll-snap-align: start; }
   .ig:hover { transform: none; }
@@ -435,20 +453,13 @@ p { margin: 0; }
         <article class="item reveal"><p class="tag">Strategy / Alignment</p><h3>Business-driven marketing</h3><p>Representing marketing in strategic planning sessions so content, campaigns and PR serve the hotel's commercial goals.</p></article>
       </div>
 
-      <div class="sub reveal"><h3>Reels I shot &amp; cut</h3><p>@atriahotelmalang · Instagram</p></div>
-      <p class="lede reveal">Open Atria Hotel Malang's feed and a lot of the video you see since September 2026 is mine. Three of them, playable right here.</p>
-      <div class="igs" data-stagger>
-        <div class="ig reveal"><iframe src="https://www.instagram.com/p/Dd_OJNuuebJ/embed/" title="Atria Hotel Malang reel 1" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
-        <div class="ig reveal"><iframe src="https://www.instagram.com/p/DdJJdLTyEJn/embed/" title="Atria Hotel Malang reel 2: Community Space" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
-        <div class="ig reveal"><iframe src="https://www.instagram.com/reel/DeeQQCcPyRc/embed/" title="Atria Hotel Malang reel 3: wedding vendor" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
-      </div>
-
-      <div class="sub reveal"><h3>Feed posts I worked on</h3><p>Wedding Fair · Giveaway · Kota Malang</p></div>
-      <div class="igs" data-stagger>
-        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DeOsD3QErRZ/embed/" title="Atria Hotel Malang post: Wedding Fair" loading="lazy" scrolling="no"></iframe></div>
-        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DdTi--8koG-/embed/" title="Atria Hotel Malang post: Giveaway" loading="lazy" scrolling="no"></iframe></div>
-        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DdGnQ7HEvPc/embed/" title="Atria Hotel Malang post: Kota Malang" loading="lazy" scrolling="no"></iframe></div>
-      </div>
+      <div class="sub reveal"><h3>My content pillars</h3><p>19 posts I made for @atriahotelmalang</p></div>
+      <p class="lede reveal">Every post has a job. These are the reels and carousels I produced for the hotel's Instagram, sorted by what each one is for. Pick a pillar and play them right here.</p>
+      <div class="mix reveal" id="mix" aria-hidden="true"></div>
+      <div class="tabs reveal" id="tabs" role="tablist" aria-label="Content pillars"></div>
+      <p class="pillar__desc" id="pdesc"></p>
+      <div class="rail" id="rail" role="tabpanel" tabindex="0"></div>
+      <noscript><p class="lede">See the posts on <a class="link" href="https://www.instagram.com/atriahotelmalang/">Instagram</a>.</p></noscript>
       <div class="more reveal"><a class="btn btn--jade" href="https://www.instagram.com/atriahotelmalang/" target="_blank" rel="noopener">See the full feed <span>↗</span></a></div>
     </div>
   </section>
@@ -595,6 +606,49 @@ p { margin: 0; }
     bar.style.transform = 'scaleX(' + (max > 0 ? scrollY / max : 0) + ')';
   }
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // content pillars: [post id, format, label]
+  var PILLARS = [
+    { name: 'Wedding Fair 2026', color: '#62e294',
+      desc: 'One campaign from start to finish: a mall booth at MATOS to warm up, the announcement, a press conference, a content contest, the invitation, then the recap. 17–18 October 2026, Grand Ballroom.',
+      posts: [['Dd3fxabuE-4','Reel','MATOS booth: come and ask'], ['Dd8pRe_OSK4','Reel','Spin the wheel at the booth'], ['Dd_OJNuuebJ','Reel','Last two days at MATOS'], ['DeOsD3QErRZ','Carousel','What you get at the fair'], ['DebtvLIkjbu','Carousel','Press conference: Forever Begins Here'], ['DeeQQCcPyRc','Reel','Create content, win prizes'], ['Del7Uf2y2ll','Reel','Traditional or modern?'], ['DewQcIvnziO','Carousel','Two-day recap']] },
+    { name: 'Community Space', color: '#0f9d55',
+      desc: 'Positioning the newly renovated hotel as a home for local communities, told through collaborations with the people who use the space.',
+      posts: [['Dc3H24RST2Q','Reel','Atria Community Space'], ['DdJJdLTyEJn','Reel','With Keminggris English club'], ['DdYmL8rSjVe','Reel','Creator collaboration']] },
+    { name: 'Engagement & giveaways', color: '#f8f1e7',
+      desc: 'Posts built to make followers answer back: a spot-the-difference giveaway, a day-or-night poll and a guess-the-surprise teaser.',
+      posts: [['DdTi--8koG-','Carousel','Spot 5 differences giveaway'], ['DfUNg9En60R','Carousel','Day or night at Atria?'], ['DfJ5KWxkiZL','Carousel','Bakery teaser: guess the surprise']] },
+    { name: 'Offers & experiences', color: '#c93a63',
+      desc: 'What the hotel sells, shown as an experience: group welcomes with Tari Beskalan, outside catering and the New Year\'s Eve Flower Carnival.',
+      posts: [['DdGnQ7HEvPc','Carousel','Group stays with Tari Beskalan'], ['DdoC_AOEvbx','Carousel','Outside catering'], ['DfjbYBWOqO8','Reel','Flower Carnival New Year\'s Eve']] },
+    { name: 'Brand & trust', color: '#b5d6bd',
+      desc: 'Stories that build and protect the name: a returning guest\'s impressions of the renovated hotel, and an official-account notice.',
+      posts: [['DeJhR8Nu3OI','Reel','Vierratale returns to Atria'], ['De_Ym0Wn7fe','Carousel','Official account notice']] }
+  ];
+  var tabs = document.getElementById('tabs'), rail = document.getElementById('rail'), mix = document.getElementById('mix'), pdesc = document.getElementById('pdesc');
+  function showPillar(i) {
+    var p = PILLARS[i];
+    Array.prototype.forEach.call(tabs.children, function (t, j) { t.setAttribute('aria-selected', j === i ? 'true' : 'false'); t.tabIndex = j === i ? 0 : -1; });
+    Array.prototype.forEach.call(mix.children, function (s, j) { s.className = j === i ? 'on' : 'off'; });
+    pdesc.textContent = p.desc;
+    rail.innerHTML = p.posts.map(function (x, k) {
+      return '<figure style="animation-delay:' + (k * 70) + 'ms"><figcaption><b>' + x[1] + '</b>' + x[2] + '</figcaption>' +
+        '<div class="ig' + (x[1] === 'Reel' ? '' : ' ig--post') + '"><iframe src="https://www.instagram.com/p/' + x[0] + '/embed/" title="' + x[2].replace(/"/g, '') + '" loading="lazy" allowfullscreen scrolling="no"></iframe></div></figure>';
+    }).join('');
+    rail.scrollLeft = 0;
+  }
+  PILLARS.forEach(function (p, i) {
+    var s = document.createElement('span'); s.style.flexGrow = p.posts.length; s.style.background = p.color; mix.appendChild(s);
+    var b = document.createElement('button'); b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab');
+    b.innerHTML = '<b>' + p.name + '</b><small>' + p.posts.length + ' posts</small>';
+    b.addEventListener('click', function () { showPillar(i); });
+    b.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      var n = (i + d + PILLARS.length) % PILLARS.length; showPillar(n); tabs.children[n].focus();
+    });
+    tabs.appendChild(b);
+  });
+  showPillar(0);
 
   if (reduce || !('IntersectionObserver' in window)) return;
 

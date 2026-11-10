@@ -17,16 +17,17 @@
   --wine-900: #2d0713;
   --wine-700: #5c0f27;
   --wine-500: #931a3e;
-  --jade-900: #062616;
-  --jade-800: #0a3a22;
-  --jade-700: #0b6e3c;
-  --jade-500: #0f9d55;
-  --jade-400: #22bd68;
-  --jade-300: #62e294;
-  --mint:     #dcf3e0;
+  /* the "jade" tokens now hold the olive family */
+  --jade-900: #1c2109;
+  --jade-800: #2c3311;
+  --jade-700: #556019;
+  --jade-500: #7d8c2a;
+  --jade-400: #a3b53c;
+  --jade-300: #cfdc7c;
+  --mint:     #eef0d6;
   --ivory:    #f8f1e7;
   --ivory-dim:#d8c4c1;
-  --sage-dim: #b5d6bd;
+  --sage-dim: #cfd2ae;
 
   --display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
@@ -57,11 +58,11 @@ p { margin: 0; }
 .band { padding-block: clamp(72px, 10vw, 136px); position: relative; }
 .b-wine  { background: var(--wine-900); }
 .b-deep  { background: var(--wine-950); }
-.b-green { background: var(--jade-800); --dim: var(--sage-dim); --rule: rgba(98,226,148,.28); }
-.b-mint  { background: var(--mint); color: var(--wine-950); --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(11,110,60,.35); --hover: var(--wine-500); }
-.band, .hero { --dim: var(--ivory-dim); --tag: var(--jade-300); --em: var(--jade-300); --rule: rgba(98,226,148,.24); --hover: var(--jade-300); }
+.b-green { background: var(--jade-800); --dim: var(--sage-dim); --rule: rgba(207,220,124,.28); }
+.b-mint  { background: var(--mint); color: var(--wine-950); --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(85,96,25,.35); --hover: var(--wine-500); }
+.band, .hero { --dim: var(--ivory-dim); --tag: var(--jade-300); --em: var(--jade-300); --rule: rgba(207,220,124,.24); --hover: var(--jade-300); }
 .b-green { --dim: var(--sage-dim); }
-.b-mint  { --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(11,110,60,.35); --hover: var(--wine-500); }
+.b-mint  { --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(85,96,25,.35); --hover: var(--wine-500); }
 
 .tag { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--tag); }
 .head { display: grid; gap: 16px; margin-bottom: clamp(36px, 5vw, 64px); max-width: 800px; }
@@ -69,11 +70,77 @@ p { margin: 0; }
 .head h2 em, .em { font-style: italic; font-weight: 400; color: var(--em); }
 .lede { font-size: 18px; color: var(--dim); max-width: 64ch; }
 
+/* band backgrounds: slow colour glows plus lens rings or a dot screen, so no band is a flat fill */
+.band { overflow: hidden; isolation: isolate; }
+.band > .wrap, .shout { position: relative; z-index: 1; }
+.band::before, .band::after, .hero::after { content: ""; position: absolute; inset: -6%; z-index: 0; pointer-events: none; }
+.band::before { animation: breathe 16s ease-in-out infinite alternate; }
+@keyframes breathe { to { transform: scale(1.12) translate(2%, -2%); } }
+.b-wine::before { background: radial-gradient(640px 440px at 92% 6%, rgba(125,140,42,.42), transparent 70%), radial-gradient(600px 480px at 0% 100%, rgba(147,26,62,.6), transparent 70%); }
+.b-wine::after { background: repeating-radial-gradient(circle at 100% 0%, transparent 0 46px, rgba(207,220,124,.09) 46px 47px); -webkit-mask-image: linear-gradient(200deg, #000, transparent 62%); mask-image: linear-gradient(200deg, #000, transparent 62%); }
+.b-deep::before { background: radial-gradient(620px 440px at 6% 10%, rgba(125,140,42,.36), transparent 70%), radial-gradient(640px 480px at 100% 92%, rgba(147,26,62,.6), transparent 70%); }
+.b-deep::after { background: repeating-radial-gradient(circle at 0% 100%, transparent 0 46px, rgba(207,220,124,.08) 46px 47px); -webkit-mask-image: linear-gradient(20deg, #000, transparent 62%); mask-image: linear-gradient(20deg, #000, transparent 62%); }
+.b-green::before { background: radial-gradient(720px 500px at 100% 100%, rgba(147,26,62,.7), transparent 70%), radial-gradient(560px 400px at 0% 0%, rgba(163,181,60,.34), transparent 70%); }
+.b-green::after { background: repeating-radial-gradient(circle at 0% 0%, transparent 0 46px, rgba(248,241,231,.07) 46px 47px); -webkit-mask-image: linear-gradient(160deg, #000, transparent 62%); mask-image: linear-gradient(160deg, #000, transparent 62%); }
+.b-mint::before { background: radial-gradient(600px 440px at 100% 0%, rgba(125,140,42,.4), transparent 70%), radial-gradient(560px 440px at 0% 100%, rgba(147,26,62,.2), transparent 70%); }
+.b-mint::after { background: radial-gradient(rgba(85,96,25,.3) 1.2px, transparent 1.7px) 0 0 / 22px 22px; -webkit-mask-image: linear-gradient(160deg, #000, transparent 58%); mask-image: linear-gradient(160deg, #000, transparent 58%); }
+.contact::before { background: radial-gradient(700px 480px at 0% 100%, rgba(45,7,19,.5), transparent 70%), radial-gradient(560px 400px at 100% 0%, rgba(207,220,124,.5), transparent 70%); }
+.contact::after { background: repeating-radial-gradient(circle at 100% 100%, transparent 0 46px, rgba(29,4,11,.12) 46px 47px); -webkit-mask-image: linear-gradient(340deg, #000, transparent 62%); mask-image: linear-gradient(340deg, #000, transparent 62%); }
+.hero::after { z-index: -1; background: repeating-radial-gradient(circle at 78% 30%, transparent 0 54px, rgba(207,220,124,.08) 54px 55px); -webkit-mask-image: radial-gradient(circle at 78% 30%, #000, transparent 55%); mask-image: radial-gradient(circle at 78% 30%, #000, transparent 55%); }
+
+/* languages */
+.langs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0 clamp(18px, 3vw, 40px); }
+.lang { padding: 22px 0 6px; border-top: 1px solid var(--rule); display: grid; gap: 10px; }
+.lang h3 { font-size: clamp(24px, 2.8vw, 34px); }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 6px; }
+.meter i { height: 6px; border-radius: 2px; background: rgba(207,220,124,.2); transform-origin: 0 50%; transition: transform .7s var(--ease); }
+.m4 i, .m3 i:nth-child(-n+3), .m2 i:nth-child(-n+2) { background: var(--jade-300); }
+.js .lang.reveal:not(.in) .meter i { transform: scaleX(0); }
+.meter i:nth-child(2) { transition-delay: .12s; } .meter i:nth-child(3) { transition-delay: .24s; } .meter i:nth-child(4) { transition-delay: .36s; }
+
+/* channel profile */
+.yt { display: grid; grid-template-columns: auto 1fr auto; gap: 18px 24px; align-items: center; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--rule); border-radius: 16px; background: linear-gradient(135deg, rgba(92,15,39,.7), rgba(44,51,17,.55)); backdrop-filter: blur(6px); }
+.yt__av { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-size: 36px; font-weight: 600; color: var(--wine-950); background: conic-gradient(from 210deg, var(--jade-300), var(--jade-500), var(--ivory), var(--jade-300)); animation: spin 14s linear infinite; }
+.yt__av span { animation: spin 14s linear infinite reverse; }
+.yt__id h3 { font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -.02em; }
+.yt__id p { font-family: var(--mono); font-size: 12.5px; color: var(--jade-300); margin-top: 6px; }
+.yt__stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-top: 1px solid var(--rule); }
+.yt__stats div { padding: 16px 16px 0 0; }
+.yt__stats div + div { padding-left: 18px; border-left: 1px solid var(--rule); }
+.yt__stats dt { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ivory-dim); }
+.yt__stats dd { margin: 6px 0 0; font-family: var(--display); font-weight: 600; font-size: clamp(24px, 3vw, 38px); line-height: 1; color: var(--jade-300); }
+
+/* article list, post shelves, linkedin card */
+.arts { border-bottom: 1px solid var(--rule); }
+.art { display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; align-items: center; padding: 16px 0; border-top: 1px solid var(--rule); text-decoration: none; transition: padding-left .45s var(--ease); }
+.art:hover { padding-left: 12px; }
+.art .tag { grid-column: 1 / -1; }
+.art h3 { font-size: clamp(18px, 1.9vw, 22px); line-height: 1.25; transition: color .3s; }
+.art:hover h3 { color: var(--wine-500); }
+.art span { font-family: var(--display); font-size: 26px; color: var(--jade-700); transition: transform .45s var(--ease); }
+.art:hover span { transform: translate(4px, -4px); }
+.shelf { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); margin-top: clamp(36px, 5vw, 56px); }
+.posts { list-style: none; margin: 14px 0 0; padding: 0; }
+.posts li { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 13px 0; border-top: 1px solid var(--rule); font-family: var(--display); font-size: 20px; line-height: 1.25; }
+.posts li:last-child { border-bottom: 1px solid var(--rule); }
+.posts time { font-family: var(--mono); font-size: 12px; color: var(--jade-300); padding-top: 5px; }
+.posts a { text-decoration: none; transition: color .3s; }
+.posts a:hover { color: var(--jade-300); }
+.li { display: grid; gap: 14px; padding: clamp(22px, 3vw, 30px); border-radius: 16px; background: var(--wine-950); color: var(--ivory); box-shadow: 0 30px 60px -30px rgba(29,4,11,.8); transition: transform .5s var(--ease); }
+.li:hover { transform: translateY(-6px) rotate(-.5deg); }
+.li__top { display: flex; align-items: center; gap: 14px; }
+.li__mark { width: 44px; height: 44px; border-radius: 8px; display: grid; place-items: center; background: var(--jade-300); color: var(--wine-950); font-weight: 600; font-size: 22px; flex: none; }
+.li h3 { font-size: 24px; }
+.li p { font-size: 15px; color: var(--ivory-dim); }
+.li .tag { color: var(--jade-300); }
+.open { display: inline-flex; align-items: baseline; gap: 10px; font-family: var(--mono); font-size: 12.5px; letter-spacing: .04em; margin-top: 18px; padding: 10px 14px; border: 1.5px solid var(--wine-950); border-radius: 12px; max-width: 46ch; }
+.open i { width: 8px; height: 8px; border-radius: 50%; background: var(--wine-500); animation: blink 1.2s steps(2) infinite; flex: none; }
+
 /* scroll progress */
 .progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: linear-gradient(90deg, var(--jade-500), var(--jade-300)); transform-origin: 0 50%; transform: scaleX(0); }
 
 /* nav */
-.nav { position: sticky; top: 0; z-index: 50; background: rgba(29,4,11,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(98,226,148,.16); }
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(29,4,11,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(207,220,124,.16); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
 .nav__name { font-family: var(--display); font-size: 20px; font-weight: 600; text-decoration: none; }
 .nav__name span { color: var(--jade-300); font-style: italic; font-weight: 400; }
@@ -90,7 +157,7 @@ p { margin: 0; }
 .orb--b { width: 520px; height: 520px; left: -200px; bottom: -160px; background: var(--wine-500); opacity: .75; animation: drift 20s ease-in-out infinite alternate-reverse; }
 .orb--c { width: 300px; height: 300px; left: 42%; top: 46%; background: var(--jade-400); opacity: .2; animation: drift 13s ease-in-out infinite alternate; }
 @keyframes drift { to { transform: translate3d(70px, 50px, 0) scale(1.18); } }
-.hero__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(98,226,148,.16), transparent 70%); }
+.hero__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(207,220,124,.16), transparent 70%); }
 
 .finder { position: relative; padding: clamp(22px, 3.4vw, 44px); }
 .finder > i { position: absolute; width: 26px; height: 26px; border: 2px solid var(--jade-300); opacity: .85; animation: bracket 1s var(--ease) both .2s; }
@@ -104,7 +171,7 @@ p { margin: 0; }
 .hud__rec { display: inline-flex; align-items: center; gap: 8px; color: var(--ivory); font-variant-numeric: tabular-nums; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--jade-400); flex: none; animation: ping 2.2s infinite; }
 .dot--rec { background: #ff3b5c; animation: blink 1.2s steps(2) infinite; }
-@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(34,189,104,.8); } 80%, 100% { box-shadow: 0 0 0 11px rgba(34,189,104,0); } }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(163,181,60,.8); } 80%, 100% { box-shadow: 0 0 0 11px rgba(163,181,60,0); } }
 @keyframes blink { 50% { opacity: .15; } }
 @keyframes fade { from { opacity: 0; } }
 
@@ -135,9 +202,9 @@ p { margin: 0; }
 .btn--ghost::before { background: var(--jade-400); }
 .btn--ghost:hover { color: var(--wine-950); border-color: var(--jade-400); }
 
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 7vw, 92px); border-top: 1px solid rgba(98,226,148,.3); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 7vw, 92px); border-top: 1px solid rgba(207,220,124,.3); }
 .stat { padding: 26px 20px 34px 0; }
-.stat + .stat { padding-left: 22px; border-left: 1px solid rgba(98,226,148,.3); }
+.stat + .stat { padding-left: 22px; border-left: 1px solid rgba(207,220,124,.3); }
 .stat b { display: block; font-family: var(--display); font-weight: 600; font-size: clamp(32px, 4.6vw, 58px); line-height: 1; color: var(--jade-300); font-variant-numeric: tabular-nums; }
 .stat span { display: block; margin-top: 10px; font-size: 14px; color: var(--ivory-dim); }
 
@@ -195,7 +262,7 @@ p { margin: 0; }
 .sub + .lede { margin-bottom: 26px; }
 .igs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
 .ig { border-radius: 10px; overflow: hidden; background: var(--ivory); transition: transform .5s var(--ease), box-shadow .5s; }
-.ig:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 24px 50px -20px rgba(15,157,85,.7); }
+.ig:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 24px 50px -20px rgba(125,140,42,.7); }
 .ig iframe { display: block; width: 100%; border: 0; aspect-ratio: 9 / 20; }
 .ig--post iframe { aspect-ratio: 9 / 15; }
 .mix { display: flex; gap: 4px; height: 8px; margin: 30px 0 0; }
@@ -240,7 +307,7 @@ p { margin: 0; }
 .clip { position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 9; background: var(--wine-700); text-decoration: none; border-radius: 6px; }
 .clip img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .5s; filter: saturate(.85) contrast(1.05); }
 .clip:hover img { transform: scale(1.09); filter: saturate(1.15); }
-.clip::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(29,4,11,.9), transparent 55%), linear-gradient(135deg, rgba(15,157,85,.35), transparent 50%); opacity: .9; transition: opacity .5s; }
+.clip::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(29,4,11,.9), transparent 55%), linear-gradient(135deg, rgba(125,140,42,.35), transparent 50%); opacity: .9; transition: opacity .5s; }
 .clip:hover::before { opacity: .55; }
 .clip__play { position: absolute; z-index: 2; left: 50%; top: 50%; width: 62px; height: 62px; margin: -31px 0 0 -31px; border-radius: 50%; background: var(--jade-400); display: grid; place-items: center; transform: scale(0); transition: transform .5s var(--ease); }
 .clip__play::after { content: ""; border-left: 15px solid var(--wine-950); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
@@ -264,7 +331,7 @@ p { margin: 0; }
 .timeline { list-style: none; margin: 0; padding: 0; }
 .timeline li { display: grid; grid-template-columns: 220px 1fr; gap: 6px 28px; padding: 22px 0; border-top: 1px solid var(--rule); transition: padding-left .45s var(--ease), background .4s; }
 .timeline li:last-child { border-bottom: 1px solid var(--rule); }
-.timeline li:hover { padding-left: 16px; background: linear-gradient(90deg, rgba(15,157,85,.16), transparent 70%); }
+.timeline li:hover { padding-left: 16px; background: linear-gradient(90deg, rgba(125,140,42,.16), transparent 70%); }
 .timeline time { font-family: var(--mono); font-size: 13px; color: var(--jade-300); padding-top: 6px; font-variant-numeric: tabular-nums; }
 .timeline h3 { font-size: 23px; line-height: 1.2; }
 .timeline p { color: var(--ivory-dim); font-size: 15.5px; margin-top: 2px; }
@@ -279,7 +346,7 @@ p { margin: 0; }
 .shout__track em { font-weight: 400; color: transparent; -webkit-text-stroke: 2px var(--wine-950); }
 .shout__track span::after { content: " ✳"; color: var(--wine-500); }
 .contact__lede { font-family: var(--display); font-size: clamp(22px, 2.8vw, 34px); line-height: 1.25; max-width: 24ch; }
-.contact__top { display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+.contact__top { display: grid; grid-template-columns: 1fr minmax(280px, 400px); gap: clamp(24px, 5vw, 72px); align-items: end; }
 .btn--wine { background: var(--wine-950); color: var(--ivory); }
 .btn--wine::before { background: var(--wine-500); }
 .contact__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: clamp(40px, 6vw, 72px); }
@@ -302,17 +369,23 @@ p { margin: 0; }
   .igs { grid-template-columns: repeat(3, minmax(270px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; }
   .ig { scroll-snap-align: start; }
   .ig:hover { transform: none; }
-  .grid3 { grid-template-columns: 1fr 1fr; }
+  .grid3, .langs, .yt__stats { grid-template-columns: 1fr 1fr; }
+  .yt__stats div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .shelf, .contact__top { grid-template-columns: 1fr; }
+  .nav__links a:not(.keep) { display: none; }
   .contact__grid { grid-template-columns: 1fr 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(3) { padding-left: 0; border-left: 0; }
-  .stat:nth-child(n+3) { border-top: 1px solid rgba(98,226,148,.3); }
+  .stat:nth-child(n+3) { border-top: 1px solid rgba(207,220,124,.3); }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .nav__links a:not(.keep) { display: none; }
   .metrics, .grid3, .clips, .edu, .contact__grid, .contact__top, .jack { grid-template-columns: 1fr; }
   .jack__stamp { justify-self: start; }
+  .yt { grid-template-columns: auto 1fr; }
+  .yt .btn { grid-column: 1 / -1; justify-self: start; }
+  .posts li { grid-template-columns: 1fr; gap: 2px; }
   .metric + .metric { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
   .timeline li { grid-template-columns: 1fr; }
   .stamp { display: none; }
@@ -408,8 +481,16 @@ p { margin: 0; }
             <li class="reveal"><code>05</code>Generative AI prompting &amp; marketing workflows</li>
             <li class="reveal"><code>06</code>Event coordination &amp; operational management</li>
           </ul>
-          <div class="tools reveal"><span>CapCut</span><span>Canva</span><span>Generative AI</span><span>Instagram</span><span>TikTok</span><span>YouTube</span></div>
+          <div class="tools reveal"><span>CapCut</span><span>Canva</span><span>Generative AI</span><span>Instagram</span><span>TikTok</span><span>YouTube</span><span>ChatGPT</span><span>Gemini</span><span>Claude</span></div>
         </div>
+      </div>
+
+      <div class="sub reveal"><h3>Four languages</h3><p>One of them is spoken with the hands</p></div>
+      <div class="langs" data-stagger>
+        <div class="lang reveal"><p class="tag">Native</p><h3>Indonesian</h3><div class="meter m4"><i></i><i></i><i></i><i></i></div></div>
+        <div class="lang reveal"><p class="tag">Proficient</p><h3>English</h3><div class="meter m3"><i></i><i></i><i></i><i></i></div></div>
+        <div class="lang reveal"><p class="tag">Conversational</p><h3>Tagalog</h3><div class="meter m2"><i></i><i></i><i></i><i></i></div></div>
+        <div class="lang reveal"><p class="tag">Conversational</p><h3>Sign language</h3><div class="meter m2"><i></i><i></i><i></i><i></i></div></div>
       </div>
     </div>
   </section>
@@ -474,13 +555,21 @@ p { margin: 0; }
         <div class="head" style="margin-bottom:0">
           <p class="tag reveal">Journalism &amp; news coverage</p>
           <p class="outlet reveal">LoNews<em>.id</em></p>
+          <p class="tag reveal">"We Provide Local News For Indonesia"</p>
           <p class="lede reveal">An online media outlet covering campus social issues, with a focus on disability inclusion advocacy at Universitas Brawijaya. I script the news, interview the sources and document the field myself, turning complex accessibility topics into human-interest stories.</p>
           <p class="reveal"><a class="link" href="https://lonewsdotid.wordpress.com" target="_blank" rel="noopener">lonewsdotid.wordpress.com ↗</a></p>
         </div>
-        <div data-stagger>
-          <article class="item reveal"><p class="tag">Article</p><h3>Disability inclusion event coverage</h3><p>Reporting on disability advocacy events at Universitas Brawijaya, featuring key source interviews.</p></article>
-          <article class="item reveal"><p class="tag">Article</p><h3>Profiles &amp; source interviews</h3><p>Human-interest writing built on direct interviews, highlighting personal perspectives.</p></article>
-          <article class="item reveal"><p class="tag">Documentation</p><h3>Field photography</h3><p>Supporting visual documentation, personally captured and curated during field coverage.</p></article>
+        <div>
+          <p class="tag reveal">7 articles under my byline · Oct–Nov 2024</p>
+          <div class="arts" data-stagger style="margin-top:14px">
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kisah-teman-tuli-marsha-dari-dunia-sunyi-ke-suara-hati/" target="_blank" rel="noopener"><p class="tag">Profile · 22 Nov 2024</p><h3>Kisah Teman Tuli Marsha, dari Dunia Sunyi ke Suara Hati</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kelas-isyarat-belajar-bahasa-isyarat-dan-membangun-lingkungan-inklusif/" target="_blank" rel="noopener"><p class="tag">Feature · 22 Nov 2024</p><h3>Kelas Isyarat: Belajar Bahasa Isyarat dan Membangun Lingkungan Inklusif</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/lukisan-mural-pemberdayaan-wadah-temu-inklusif-bagi-teman-teman-disabilitas/" target="_blank" rel="noopener"><p class="tag">Event coverage · 22 Nov 2024</p><h3>Lukisan Mural Pemberdayaan: Wadah Temu Inklusif bagi Teman-Teman Disabilitas</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/keajaiban-kolaborasi/" target="_blank" rel="noopener"><p class="tag">Report · 29 Oct 2024</p><h3>Formapi Goes to Faculty: Katanya Kampus Inklusif, kok Mahasiswanya Kurang Peduli?</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/mencapai-pertumbuhan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Temu Inklusif 2.0 di FISIP UB: Mahasiswa Disabilitas Tampilkan Booth Kreatif</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/melampaui-hambatan/" target="_blank" rel="noopener"><p class="tag">Review · 29 Oct 2024</p><h3>Pameran Seni Inklusivitas: Ruang untuk Kesetaraan dan Penghargaan Budaya</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/seni-menjalin-hubungan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Artspace Inclusign Ajak Mahasiswa Kenali Bahasa Isyarat</h3><span>↗</span></a>
+          </div>
         </div>
       </div>
     </div>
@@ -501,22 +590,29 @@ p { margin: 0; }
       </div>
 
       <div class="channel">
-        <div class="channel__head reveal">
-          <h3>AnalogAuraa</h3>
-          <p>5.1M+ total views · 80%–109%+ average view duration</p>
+        <div class="yt reveal">
+          <span class="yt__av"><span>A</span></span>
+          <div class="yt__id"><h3>AnalogAura</h3><p>@AnalogAuraa · YouTube · running since Jan 2025</p></div>
+          <a class="btn btn--jade" href="https://www.youtube.com/@AnalogAuraa" target="_blank" rel="noopener">Visit channel <span>↗</span></a>
+          <dl class="yt__stats">
+            <div><dt>Total views</dt><dd>5.1M+</dd></div>
+            <div><dt>Subscribers</dt><dd>2.9K+</dd></div>
+            <div><dt>Watch hours</dt><dd>28K</dd></div>
+            <div><dt>Avg. view duration</dt><dd>80–109%</dd></div>
+          </dl>
         </div>
         <p class="channel__desc reveal">Short-form content built for retention. High-energy moment curation with fast-paced editing: strong visual and audio hooks, precise transitions, micro-editing and sound effect placement.</p>
         <div class="clips" data-stagger>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=JD2vO4HaQpU" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/JD2vO4HaQpU/hqdefault.jpg" alt="AnalogAuraa clip 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A01</b>Watch clip</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=6c8zULwqzy0" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/6c8zULwqzy0/hqdefault.jpg" alt="AnalogAuraa clip 2" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A02</b>Watch clip</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=Grbv4MyCAnM" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/Grbv4MyCAnM/hqdefault.jpg" alt="AnalogAuraa clip 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A03</b>Watch clip</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=JD2vO4HaQpU" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/JD2vO4HaQpU/hqdefault.jpg" alt="AnalogAuraa clip 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A01</b>Speed vs KSI: Wipeout race</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=6c8zULwqzy0" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/6c8zULwqzy0/hqdefault.jpg" alt="AnalogAuraa clip 2" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A02</b>Speed begs Lamine Yamal</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=Grbv4MyCAnM" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/Grbv4MyCAnM/hqdefault.jpg" alt="AnalogAuraa clip 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A03</b>KSI's birthday message</span></a>
         </div>
       </div>
 
       <div class="channel">
         <div class="channel__head reveal">
           <h3>Muhammad Reynard</h3>
-          <p>Personal channel</p>
+          <p>@muhammadreynard810 · personal channel</p>
         </div>
         <div class="clips" data-stagger>
           <a class="clip reveal" href="https://www.youtube.com/watch?v=QMsCzA_FCfc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/QMsCzA_FCfc/hqdefault.jpg" alt="Personal channel video 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B01</b>Video profile · Desa Argosari</span></a>
@@ -543,6 +639,26 @@ p { margin: 0; }
           <div><h3>Blogspot</h3><p>Notes · 3 pieces · written without AI</p></div><span class="pub__arrow">↗</span>
         </a>
       </div>
+      <div class="shelf">
+        <div>
+          <p class="tag reveal">On Medium · Muhammad Reynard F N</p>
+          <ul class="posts" data-stagger>
+            <li class="reveal"><time>4 Oct 2026</time>Half a Year</li>
+            <li class="reveal"><time>5 Sep 2026</time>Our Monthsary</li>
+            <li class="reveal"><time>7 Aug 2026</time>Long Distance Relationship</li>
+            <li class="reveal"><time>5 Aug 2026</time>My Love.</li>
+            <li class="reveal"><time>31 Jul 2026</time>Sinta,</li>
+          </ul>
+        </div>
+        <div>
+          <p class="tag reveal">On Blogspot · "Menyalurkan apa yang ada di kepala, tanpa dibantu AI"</p>
+          <ul class="posts" data-stagger>
+            <li class="reveal"><time>20 May 2026</time><a href="https://muhammadreynardfawwaznuriansyah.blogspot.com/2026/05/hubungan-jarak-jauh.html" target="_blank" rel="noopener">Hubungan Jarak Jauh ↗</a></li>
+            <li class="reveal"><time>26 Apr 2026</time><a href="https://muhammadreynardfawwaznuriansyah.blogspot.com/2026/04/tujuan-dan-cita-cita.html" target="_blank" rel="noopener">Tujuan dan Cita Cita ↗</a></li>
+            <li class="reveal"><time>9 Mar 2026</time><a href="https://muhammadreynardfawwaznuriansyah.blogspot.com/2026/03/dalam-benakku.html" target="_blank" rel="noopener">Dalam Benakku! ↗</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -556,17 +672,17 @@ p { margin: 0; }
       <ol class="timeline">
         <li class="reveal"><time>Sep 2026 – Present</time><div><h3>Sales &amp; Marketing Intern, Marketing Communications <span class="now">Now</span></h3><p>Atria Hotel Malang</p></div></li>
         <li class="reveal"><time>Jul 2026 – Aug 2026</time><div><h3>Publication, Design &amp; Documentation Division</h3><p>FISIP Community Service Program (KKN)</p></div></li>
-        <li class="reveal"><time>Aug 2025 – Dec 2025</time><div><h3>Events Division Staff</h3><p>Artspace Inclusign 2025</p></div></li>
-        <li class="reveal"><time>May 2025 – Dec 2025</time><div><h3>Staff Supervisor</h3><p>Raja Brawijaya 2025</p></div></li>
-        <li class="reveal"><time>Jan 2025 – Present</time><div><h3>Content Manager &amp; YouTube Content Clipper</h3><p>Independent</p></div></li>
-        <li class="reveal"><time>Oct 2024 – Dec 2024</time><div><h3>Intern, Internal Organization Management</h3><p>HIMANIKA UB</p></div></li>
-        <li class="reveal"><time>Aug 2024 – Nov 2024</time><div><h3>Finance Executive</h3><p>Communication in Action</p></div></li>
-        <li class="reveal"><time>Feb 2023 – Present</time><div><h3>Digital Asset Seller</h3><p>Freelance, online marketplace</p></div></li>
-        <li class="reveal"><time>Dec 2022 – Present</time><div><h3>Retail Investor &amp; Independent Market Analyst</h3><p>Independent</p></div></li>
-        <li class="reveal"><time>Jan 2019 – Present</time><div><h3>Independent Video Editor</h3><p>Freelance, 7+ years</p></div></li>
+        <li class="reveal"><time>Aug 2025 – Dec 2025</time><div><h3>Events Division Staff</h3><p>Artspace Inclusign 2025 · Designed and ran disability awareness events: rundowns, technical coordination and educational activities.</p></div></li>
+        <li class="reveal"><time>May 2025 – Dec 2025</time><div><h3>Staff Supervisor</h3><p>Raja Brawijaya 2025 · Supervised new students and coordinated cross-division field operations during university orientation.</p></div></li>
+        <li class="reveal"><time>Jan 2025 – Present</time><div><h3>Content Manager &amp; YouTube Content Clipper</h3><p>AnalogAura · Content planning, production, SEO and audience analytics.</p></div></li>
+        <li class="reveal"><time>Oct 2024 – Dec 2024</time><div><h3>Intern, Internal Organization Management</h3><p>HIMANIKA UB · Managed internal communications and performance evaluation for the student organization.</p></div></li>
+        <li class="reveal"><time>Aug 2024 – Nov 2024</time><div><h3>Finance Executive</h3><p>Communication in Action · Sponsorship communications, MoU drafting, partner relations and financial documentation.</p></div></li>
+        <li class="reveal"><time>Feb 2023 – Present</time><div><h3>Digital Asset Seller</h3><p>Freelance, online marketplace · Negotiations, high-value transactions and customer relations.</p></div></li>
+        <li class="reveal"><time>Dec 2022 – Present</time><div><h3>Retail Investor &amp; Independent Market Analyst</h3><p>Independent · Fundamental and technical research on the Indonesian stock market (IHSG) and digital assets.</p></div></li>
+        <li class="reveal"><time>Jan 2019 – Present</time><div><h3>Independent Video Editor</h3><p>Freelance · 7+ years of multi-platform post-production and content optimization.</p></div></li>
       </ol>
       <div class="edu" data-stagger>
-        <article class="item reveal"><p class="tag">2024 – Present</p><h3>Universitas Brawijaya</h3><p>Bachelor of Communication Science · GPA 3.61 / 4.00</p></article>
+        <article class="item reveal"><p class="tag">2024 – Present</p><h3>Universitas Brawijaya</h3><p>Bachelor of Communication Science · GPA 3.61 / 4.00 · Teaching Assistant, Basic Journalism Practicum (2024)</p></article>
         <article class="item reveal"><p class="tag">2021 – 2024</p><h3>SMA Kartika X-1</h3><p>South Jakarta</p></article>
       </div>
     </div>
@@ -581,8 +697,17 @@ p { margin: 0; }
     </div>
     <div class="wrap">
       <div class="contact__top">
-        <h2 class="contact__lede reveal">Have a story, a campaign or a video that needs to be watched?</h2>
-        <a class="btn btn--wine reveal" href="mailto:m.reynard52@gmail.com">Email me <span>→</span></a>
+        <div class="reveal">
+          <h2 class="contact__lede">Have a story, a campaign or a video that needs to be watched?</h2>
+          <p class="open"><i></i>Open to a Marketing Communications internship from early 2027 (4–6 months)</p>
+          <div class="cta"><a class="btn btn--wine" href="mailto:m.reynard52@gmail.com">Email me <span>→</span></a></div>
+        </div>
+        <a class="li reveal" href="https://www.linkedin.com/in/mreynardfn/" target="_blank" rel="noopener" style="text-decoration:none">
+          <div class="li__top"><span class="li__mark">in</span><div><h3>Muhammad Reynard</h3><p class="tag">linkedin.com/in/mreynardfn</p></div></div>
+          <p>Marketing Communications · Content Strategy · Video Production</p>
+          <p>Communication Studies, Universitas Brawijaya · Malang, Indonesia</p>
+          <p class="tag">Connect on LinkedIn ↗</p>
+        </a>
       </div>
       <div class="contact__grid" data-stagger>
         <a class="contact__item reveal" href="mailto:m.reynard52@gmail.com"><span>Email</span><b>m.reynard52@gmail.com</b></a>
@@ -613,10 +738,10 @@ p { margin: 0; }
 
   // content pillars: [post id, format, label]
   var PILLARS = [
-    { name: 'Wedding Fair 2026', color: '#62e294',
+    { name: 'Wedding Fair 2026', color: '#cfdc7c',
       desc: 'One campaign from start to finish: a mall booth at MATOS to warm up, the announcement, a press conference, a content contest, the invitation, then the recap. 17–18 October 2026, Grand Ballroom.',
       posts: [['Dd3fxabuE-4','Reel','MATOS booth: come and ask',77], ['Dd8pRe_OSK4','Reel','Spin the wheel at the booth',55], ['Dd_OJNuuebJ','Reel','Last two days at MATOS',47], ['DeOsD3QErRZ','Carousel','What you get at the fair',164], ['DebtvLIkjbu','Carousel','Press conference: Forever Begins Here',119], ['DeeQQCcPyRc','Reel','Create content, win prizes',94], ['Del7Uf2y2ll','Reel','Traditional or modern?',210], ['DewQcIvnziO','Carousel','Two-day recap',134]] },
-    { name: 'Community Space', color: '#0f9d55',
+    { name: 'Community Space', color: '#7d8c2a',
       desc: 'Positioning the newly renovated hotel as a home for local communities, told through collaborations with the people who use the space.',
       posts: [['Dc3H24RST2Q','Reel','Atria Community Space',106], ['DdJJdLTyEJn','Reel','With Keminggris English club',242], ['DdYmL8rSjVe','Reel','Creator collaboration',166]] },
     { name: 'Engagement & giveaways', color: '#f8f1e7',
@@ -625,7 +750,7 @@ p { margin: 0; }
     { name: 'Offers & experiences', color: '#c93a63',
       desc: 'What the hotel sells, shown as an experience: group welcomes with Tari Beskalan, outside catering and the New Year\'s Eve Flower Carnival.',
       posts: [['DdGnQ7HEvPc','Carousel','Group stays with Tari Beskalan',200], ['DdoC_AOEvbx','Carousel','Outside catering',112], ['DfjbYBWOqO8','Reel','Flower Carnival New Year\'s Eve',10]] },
-    { name: 'Brand & trust', color: '#b5d6bd',
+    { name: 'Brand & trust', color: '#cfd2ae',
       desc: 'Stories that build and protect the name: a returning guest\'s impressions of the renovated hotel, and an official-account notice.',
       posts: [['DeJhR8Nu3OI','Reel','Vierratale returns to Atria',85], ['De_Ym0Wn7fe','Carousel','Official account notice',104]] }
   ];

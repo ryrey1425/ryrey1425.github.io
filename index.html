@@ -213,7 +213,10 @@ p { margin: 0; }
 .pillar__desc { margin: 22px 0 26px; max-width: 68ch; color: var(--ivory-dim); min-height: 3.2em; }
 .rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(270px, 320px); gap: 16px; overflow-x: auto; padding-bottom: 14px; scroll-snap-type: x proximity; scrollbar-color: var(--jade-500) transparent; align-items: start; }
 .rail figure { margin: 0; display: grid; gap: 10px; scroll-snap-align: start; animation: up .7s var(--ease) both; }
-.rail figcaption { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ivory-dim); }
+.rail figcaption span { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rail figcaption i { flex: none; font-style: normal; color: var(--jade-300); font-variant-numeric: tabular-nums; }
+.likes-note { margin-top: 10px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; color: var(--ivory-dim); }
+.rail figcaption { display: flex; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--ivory-dim); }
 .rail figcaption b { color: var(--jade-300); font-weight: 500; margin-right: 8px; }
 .more { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .link { font-family: var(--mono); font-size: 13px; color: var(--jade-300); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color .3s; }
@@ -459,6 +462,7 @@ p { margin: 0; }
       <div class="tabs reveal" id="tabs" role="tablist" aria-label="Content pillars"></div>
       <p class="pillar__desc" id="pdesc"></p>
       <div class="rail" id="rail" role="tabpanel" tabindex="0"></div>
+      <p class="likes-note">19 posts · ♥ 2,701 likes in total · counted 10 Nov 2026</p>
       <noscript><p class="lede">See the posts on <a class="link" href="https://www.instagram.com/atriahotelmalang/">Instagram</a>.</p></noscript>
       <div class="more reveal"><a class="btn btn--jade" href="https://www.instagram.com/atriahotelmalang/" target="_blank" rel="noopener">See the full feed <span>↗</span></a></div>
     </div>
@@ -611,19 +615,19 @@ p { margin: 0; }
   var PILLARS = [
     { name: 'Wedding Fair 2026', color: '#62e294',
       desc: 'One campaign from start to finish: a mall booth at MATOS to warm up, the announcement, a press conference, a content contest, the invitation, then the recap. 17–18 October 2026, Grand Ballroom.',
-      posts: [['Dd3fxabuE-4','Reel','MATOS booth: come and ask'], ['Dd8pRe_OSK4','Reel','Spin the wheel at the booth'], ['Dd_OJNuuebJ','Reel','Last two days at MATOS'], ['DeOsD3QErRZ','Carousel','What you get at the fair'], ['DebtvLIkjbu','Carousel','Press conference: Forever Begins Here'], ['DeeQQCcPyRc','Reel','Create content, win prizes'], ['Del7Uf2y2ll','Reel','Traditional or modern?'], ['DewQcIvnziO','Carousel','Two-day recap']] },
+      posts: [['Dd3fxabuE-4','Reel','MATOS booth: come and ask',77], ['Dd8pRe_OSK4','Reel','Spin the wheel at the booth',55], ['Dd_OJNuuebJ','Reel','Last two days at MATOS',47], ['DeOsD3QErRZ','Carousel','What you get at the fair',164], ['DebtvLIkjbu','Carousel','Press conference: Forever Begins Here',119], ['DeeQQCcPyRc','Reel','Create content, win prizes',94], ['Del7Uf2y2ll','Reel','Traditional or modern?',210], ['DewQcIvnziO','Carousel','Two-day recap',134]] },
     { name: 'Community Space', color: '#0f9d55',
       desc: 'Positioning the newly renovated hotel as a home for local communities, told through collaborations with the people who use the space.',
-      posts: [['Dc3H24RST2Q','Reel','Atria Community Space'], ['DdJJdLTyEJn','Reel','With Keminggris English club'], ['DdYmL8rSjVe','Reel','Creator collaboration']] },
+      posts: [['Dc3H24RST2Q','Reel','Atria Community Space',106], ['DdJJdLTyEJn','Reel','With Keminggris English club',242], ['DdYmL8rSjVe','Reel','Creator collaboration',166]] },
     { name: 'Engagement & giveaways', color: '#f8f1e7',
       desc: 'Posts built to make followers answer back: a spot-the-difference giveaway, a day-or-night poll and a guess-the-surprise teaser.',
-      posts: [['DdTi--8koG-','Carousel','Spot 5 differences giveaway'], ['DfUNg9En60R','Carousel','Day or night at Atria?'], ['DfJ5KWxkiZL','Carousel','Bakery teaser: guess the surprise']] },
+      posts: [['DdTi--8koG-','Carousel','Spot 5 differences giveaway',635], ['DfUNg9En60R','Carousel','Day or night at Atria?',56], ['DfJ5KWxkiZL','Carousel','Bakery teaser: guess the surprise',85]] },
     { name: 'Offers & experiences', color: '#c93a63',
       desc: 'What the hotel sells, shown as an experience: group welcomes with Tari Beskalan, outside catering and the New Year\'s Eve Flower Carnival.',
-      posts: [['DdGnQ7HEvPc','Carousel','Group stays with Tari Beskalan'], ['DdoC_AOEvbx','Carousel','Outside catering'], ['DfjbYBWOqO8','Reel','Flower Carnival New Year\'s Eve']] },
+      posts: [['DdGnQ7HEvPc','Carousel','Group stays with Tari Beskalan',200], ['DdoC_AOEvbx','Carousel','Outside catering',112], ['DfjbYBWOqO8','Reel','Flower Carnival New Year\'s Eve',10]] },
     { name: 'Brand & trust', color: '#b5d6bd',
       desc: 'Stories that build and protect the name: a returning guest\'s impressions of the renovated hotel, and an official-account notice.',
-      posts: [['DeJhR8Nu3OI','Reel','Vierratale returns to Atria'], ['De_Ym0Wn7fe','Carousel','Official account notice']] }
+      posts: [['DeJhR8Nu3OI','Reel','Vierratale returns to Atria',85], ['De_Ym0Wn7fe','Carousel','Official account notice',104]] }
   ];
   var tabs = document.getElementById('tabs'), rail = document.getElementById('rail'), mix = document.getElementById('mix'), pdesc = document.getElementById('pdesc');
   function showPillar(i) {
@@ -632,7 +636,7 @@ p { margin: 0; }
     Array.prototype.forEach.call(mix.children, function (s, j) { s.className = j === i ? 'on' : 'off'; });
     pdesc.textContent = p.desc;
     rail.innerHTML = p.posts.map(function (x, k) {
-      return '<figure style="animation-delay:' + (k * 70) + 'ms"><figcaption><b>' + x[1] + '</b>' + x[2] + '</figcaption>' +
+      return '<figure style="animation-delay:' + (k * 70) + 'ms"><figcaption><span><b>' + x[1] + '</b>' + x[2] + '</span><i>♥ ' + x[3] + '</i></figcaption>' +
         '<div class="ig' + (x[1] === 'Reel' ? '' : ' ig--post') + '"><iframe src="https://www.instagram.com/p/' + x[0] + '/embed/" title="' + x[2].replace(/"/g, '') + '" loading="lazy" allowfullscreen scrolling="no"></iframe></div></figure>';
     }).join('');
     rail.scrollLeft = 0;
@@ -640,7 +644,8 @@ p { margin: 0; }
   PILLARS.forEach(function (p, i) {
     var s = document.createElement('span'); s.style.flexGrow = p.posts.length; s.style.background = p.color; mix.appendChild(s);
     var b = document.createElement('button'); b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab');
-    b.innerHTML = '<b>' + p.name + '</b><small>' + p.posts.length + ' posts</small>';
+    var likes = p.posts.reduce(function (a, x) { return a + x[3]; }, 0);
+    b.innerHTML = '<b>' + p.name + '</b><small>' + p.posts.length + ' posts · ♥ ' + likes.toLocaleString('en-US') + '</small>';
     b.addEventListener('click', function () { showPillar(i); });
     b.addEventListener('keydown', function (e) {
       var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;

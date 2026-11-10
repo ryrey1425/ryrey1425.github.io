@@ -101,7 +101,17 @@ p { margin: 0; }
 /* channel profile */
 .yt { display: grid; grid-template-columns: auto 1fr auto; gap: 18px 24px; align-items: center; padding: clamp(20px, 3vw, 32px); border: 1px solid var(--rule); border-radius: 16px; background: linear-gradient(135deg, rgba(92,15,39,.7), rgba(44,51,17,.55)); backdrop-filter: blur(6px); }
 .yt__av { width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; font-family: var(--display); font-size: 36px; font-weight: 600; color: var(--wine-950); background: conic-gradient(from 210deg, var(--jade-300), var(--jade-500), var(--ivory), var(--jade-300)); animation: spin 14s linear infinite; }
-.yt__av span { animation: spin 14s linear infinite reverse; }
+.yt__av span, .yt__av img { animation: spin 14s linear infinite reverse; }
+.yt__av img { width: 66px; height: 66px; border-radius: 50%; object-fit: cover; }
+.shorts { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(170px, 208px); gap: 14px; overflow-x: auto; padding: 8px 0 14px; scroll-snap-type: x proximity; scrollbar-color: var(--jade-500) transparent; }
+.short { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: var(--wine-700); text-decoration: none; scroll-snap-align: start; transition: transform .5s var(--ease); }
+.short:hover { transform: translateY(-6px) rotate(-1deg); }
+.short img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease); }
+.short:hover img { transform: scale(1.07); }
+.short::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(29,4,11,.92), transparent 50%); }
+.short:hover .clip__play { transform: scale(1); }
+.short__views { position: absolute; z-index: 2; left: 10px; top: 10px; font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; background: var(--jade-300); color: var(--wine-950); padding: 4px 9px; border-radius: 999px; }
+.short__title { position: absolute; z-index: 2; left: 12px; right: 12px; bottom: 12px; font-size: 14px; font-weight: 600; line-height: 1.25; color: var(--ivory); }
 .yt__id h3 { font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -.02em; }
 .yt__id p { font-family: var(--mono); font-size: 12.5px; color: var(--jade-300); margin-top: 6px; }
 .yt__stats { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border-top: 1px solid var(--rule); }
@@ -591,21 +601,20 @@ p { margin: 0; }
 
       <div class="channel">
         <div class="yt reveal">
-          <span class="yt__av"><span>A</span></span>
+          <span class="yt__av"><img src="https://yt3.googleusercontent.com/bPl7WOSra3p2gZwiXo4CKfBN8GoEEL_SI_hFpTJks2qafK0809FdPUxaBo-itZBnIKAB1NbSvQ=s160-c-k-c0x00ffffff-no-rj" alt="AnalogAura channel avatar" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'A'}))"></span>
           <div class="yt__id"><h3>AnalogAura</h3><p>@AnalogAuraa · YouTube · running since Jan 2025</p></div>
           <a class="btn btn--jade" href="https://www.youtube.com/@AnalogAuraa" target="_blank" rel="noopener">Visit channel <span>↗</span></a>
           <dl class="yt__stats">
             <div><dt>Total views</dt><dd>5.1M+</dd></div>
-            <div><dt>Subscribers</dt><dd>2.9K+</dd></div>
-            <div><dt>Watch hours</dt><dd>28K</dd></div>
+            <div><dt>Subscribers</dt><dd>2.96K</dd></div>
+            <div><dt>Videos</dt><dd>107</dd></div>
             <div><dt>Avg. view duration</dt><dd>80–109%</dd></div>
           </dl>
         </div>
         <p class="channel__desc reveal">Short-form content built for retention. High-energy moment curation with fast-paced editing: strong visual and audio hooks, precise transitions, micro-editing and sound effect placement.</p>
-        <div class="clips" data-stagger>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=JD2vO4HaQpU" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/JD2vO4HaQpU/hqdefault.jpg" alt="AnalogAuraa clip 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A01</b>Speed vs KSI: Wipeout race</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=6c8zULwqzy0" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/6c8zULwqzy0/hqdefault.jpg" alt="AnalogAuraa clip 2" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A02</b>Speed begs Lamine Yamal</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=Grbv4MyCAnM" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/Grbv4MyCAnM/hqdefault.jpg" alt="AnalogAuraa clip 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>A03</b>KSI's birthday message</span></a>
+        <p class="tag reveal">Top 10 Shorts by views</p>
+        <div class="shorts" id="shorts"></div>
+        <div hidden>
         </div>
       </div>
 
@@ -703,9 +712,9 @@ p { margin: 0; }
           <div class="cta"><a class="btn btn--wine" href="mailto:m.reynard52@gmail.com">Email me <span>→</span></a></div>
         </div>
         <a class="li reveal" href="https://www.linkedin.com/in/mreynardfn/" target="_blank" rel="noopener" style="text-decoration:none">
-          <div class="li__top"><span class="li__mark">in</span><div><h3>Muhammad Reynard</h3><p class="tag">linkedin.com/in/mreynardfn</p></div></div>
-          <p>Marketing Communications · Content Strategy · Video Production</p>
-          <p>Communication Studies, Universitas Brawijaya · Malang, Indonesia</p>
+          <div class="li__top"><span class="li__mark">in</span><div><h3>Muhammad Reynard (Rey) Fawwaz Nuriansyah</h3><p class="tag">linkedin.com/in/mreynardfn</p></div></div>
+          <p>Sales and Marketing Intern at Atria Hotel Malang</p>
+          <p>Universitas Brawijaya · Marketing Communications, Content Strategy, Video Production</p>
           <p class="tag">Connect on LinkedIn ↗</p>
         </a>
       </div>
@@ -779,6 +788,26 @@ p { margin: 0; }
     tabs.appendChild(b);
   });
   showPillar(0);
+
+  // AnalogAura: top Shorts by views [id, views, title]
+  var SHORTS = [
+    ['Grbv4MyCAnM', '1.2M', 'KSI\'s birthday message to Speed'],
+    ['JD2vO4HaQpU', '1.1M', 'Speed vs KSI: Wipeout race gone wrong'],
+    ['2bWw_NOdX-Q', '453K', 'Speed finally meets Da Zang Wei in China'],
+    ['tE5Ltwawa7A', '125K', 'Live 24/7 for 365 days around the world'],
+    ['HcxkozPlIy8', '77K', 'Khabib humbled Speed'],
+    ['P40ggJxBv84', '73K', 'Speed finally meets his dad in Jamaica'],
+    ['lPPVQ6IyjKw', '56K', 'Reunited with a high-school friend'],
+    ['JReNkiv92zc', '43K', 'Speed did not know he was colorblind'],
+    ['D0IH026130M', '43K', 'Speed meets Freddy'],
+    ['oN_1jrHQUDc', '43K', 'Speed visited his old school']
+  ];
+  document.getElementById('shorts').innerHTML = SHORTS.map(function (s) {
+    var hq = 'https://i.ytimg.com/vi/' + s[0] + '/hqdefault.jpg';
+    return '<a class="short" href="https://www.youtube.com/shorts/' + s[0] + '" target="_blank" rel="noopener">' +
+      '<img src="https://i.ytimg.com/vi/' + s[0] + '/oar2.jpg" onerror="this.onerror=null;this.src=\'' + hq + '\'" alt="" loading="lazy">' +
+      '<i class="clip__play"></i><b class="short__views">' + s[1] + ' views</b><span class="short__title">' + s[2] + '</span></a>';
+  }).join('');
 
   if (reduce || !('IntersectionObserver' in window)) return;
 

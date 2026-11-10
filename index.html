@@ -17,16 +17,16 @@
   --wine-900: #2d0713;
   --wine-700: #5c0f27;
   --wine-500: #931a3e;
-  --jade-900: #04261c;
-  --jade-800: #07382a;
-  --jade-700: #00754b;
-  --jade-500: #00a86b;
-  --jade-400: #14c781;
-  --jade-300: #5cecae;
-  --mint:     #d9f5e6;
+  --jade-900: #062616;
+  --jade-800: #0a3a22;
+  --jade-700: #0b6e3c;
+  --jade-500: #0f9d55;
+  --jade-400: #22bd68;
+  --jade-300: #62e294;
+  --mint:     #dcf3e0;
   --ivory:    #f8f1e7;
   --ivory-dim:#d8c4c1;
-  --sage-dim: #b4d6c6;
+  --sage-dim: #b5d6bd;
 
   --display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
@@ -57,11 +57,11 @@ p { margin: 0; }
 .band { padding-block: clamp(72px, 10vw, 136px); position: relative; }
 .b-wine  { background: var(--wine-900); }
 .b-deep  { background: var(--wine-950); }
-.b-green { background: var(--jade-800); --dim: var(--sage-dim); --rule: rgba(92,236,174,.28); }
-.b-mint  { background: var(--mint); color: var(--wine-950); --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(0,117,75,.35); --hover: var(--wine-500); }
-.band, .hero { --dim: var(--ivory-dim); --tag: var(--jade-300); --em: var(--jade-300); --rule: rgba(92,236,174,.24); --hover: var(--jade-300); }
+.b-green { background: var(--jade-800); --dim: var(--sage-dim); --rule: rgba(98,226,148,.28); }
+.b-mint  { background: var(--mint); color: var(--wine-950); --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(11,110,60,.35); --hover: var(--wine-500); }
+.band, .hero { --dim: var(--ivory-dim); --tag: var(--jade-300); --em: var(--jade-300); --rule: rgba(98,226,148,.24); --hover: var(--jade-300); }
 .b-green { --dim: var(--sage-dim); }
-.b-mint  { --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(0,117,75,.35); --hover: var(--wine-500); }
+.b-mint  { --dim: #4d3239; --tag: var(--jade-700); --em: var(--wine-500); --rule: rgba(11,110,60,.35); --hover: var(--wine-500); }
 
 .tag { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--tag); }
 .head { display: grid; gap: 16px; margin-bottom: clamp(36px, 5vw, 64px); max-width: 800px; }
@@ -73,7 +73,7 @@ p { margin: 0; }
 .progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: linear-gradient(90deg, var(--jade-500), var(--jade-300)); transform-origin: 0 50%; transform: scaleX(0); }
 
 /* nav */
-.nav { position: sticky; top: 0; z-index: 50; background: rgba(29,4,11,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(92,236,174,.16); }
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(29,4,11,.82); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(98,226,148,.16); }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
 .nav__name { font-family: var(--display); font-size: 20px; font-weight: 600; text-decoration: none; }
 .nav__name span { color: var(--jade-300); font-style: italic; font-weight: 400; }
@@ -90,7 +90,7 @@ p { margin: 0; }
 .orb--b { width: 520px; height: 520px; left: -200px; bottom: -160px; background: var(--wine-500); opacity: .75; animation: drift 20s ease-in-out infinite alternate-reverse; }
 .orb--c { width: 300px; height: 300px; left: 42%; top: 46%; background: var(--jade-400); opacity: .2; animation: drift 13s ease-in-out infinite alternate; }
 @keyframes drift { to { transform: translate3d(70px, 50px, 0) scale(1.18); } }
-.hero__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(92,236,174,.16), transparent 70%); }
+.hero__glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(420px circle at var(--mx, 70%) var(--my, 30%), rgba(98,226,148,.16), transparent 70%); }
 
 .finder { position: relative; padding: clamp(22px, 3.4vw, 44px); }
 .finder > i { position: absolute; width: 26px; height: 26px; border: 2px solid var(--jade-300); opacity: .85; animation: bracket 1s var(--ease) both .2s; }
@@ -104,7 +104,7 @@ p { margin: 0; }
 .hud__rec { display: inline-flex; align-items: center; gap: 8px; color: var(--ivory); font-variant-numeric: tabular-nums; }
 .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--jade-400); flex: none; animation: ping 2.2s infinite; }
 .dot--rec { background: #ff3b5c; animation: blink 1.2s steps(2) infinite; }
-@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(20,199,129,.8); } 80%, 100% { box-shadow: 0 0 0 11px rgba(20,199,129,0); } }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(34,189,104,.8); } 80%, 100% { box-shadow: 0 0 0 11px rgba(34,189,104,0); } }
 @keyframes blink { 50% { opacity: .15; } }
 @keyframes fade { from { opacity: 0; } }
 
@@ -135,9 +135,9 @@ p { margin: 0; }
 .btn--ghost::before { background: var(--jade-400); }
 .btn--ghost:hover { color: var(--wine-950); border-color: var(--jade-400); }
 
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 7vw, 92px); border-top: 1px solid rgba(92,236,174,.3); }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 7vw, 92px); border-top: 1px solid rgba(98,226,148,.3); }
 .stat { padding: 26px 20px 34px 0; }
-.stat + .stat { padding-left: 22px; border-left: 1px solid rgba(92,236,174,.3); }
+.stat + .stat { padding-left: 22px; border-left: 1px solid rgba(98,226,148,.3); }
 .stat b { display: block; font-family: var(--display); font-weight: 600; font-size: clamp(32px, 4.6vw, 58px); line-height: 1; color: var(--jade-300); font-variant-numeric: tabular-nums; }
 .stat span { display: block; margin-top: 10px; font-size: 14px; color: var(--ivory-dim); }
 
@@ -182,6 +182,28 @@ p { margin: 0; }
 .metric__nums span { font-size: 14px; color: var(--ivory-dim); }
 .metric > p { margin-top: 18px; font-family: var(--mono); font-size: 12px; color: var(--ivory-dim); }
 
+/* jack of all trades + instagram embeds */
+.jack { display: grid; grid-template-columns: auto 1fr; gap: clamp(20px, 4vw, 56px); align-items: center; margin-bottom: clamp(40px, 6vw, 72px); }
+.jack__stamp { display: inline-block; font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--jade-300); border: 2px solid var(--jade-300); border-radius: 8px; padding: 14px 18px; transform: rotate(-6deg); animation: wobble 5s ease-in-out infinite; white-space: nowrap; }
+.jack__stamp small { display: block; font-size: 10.5px; letter-spacing: .12em; color: var(--ivory-dim); margin-top: 4px; }
+@keyframes wobble { 50% { transform: rotate(-2deg) scale(1.04); } }
+.jack p { font-family: var(--display); font-size: clamp(22px, 2.8vw, 34px); line-height: 1.28; font-weight: 400; max-width: 30ch; }
+.jack p em { color: var(--jade-300); }
+.sub { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin: clamp(48px, 7vw, 88px) 0 22px; }
+.sub h3 { font-size: clamp(28px, 3.6vw, 46px); letter-spacing: -.02em; }
+.sub p { font-family: var(--mono); font-size: 13px; color: var(--jade-300); }
+.sub + .lede { margin-bottom: 26px; }
+.igs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; align-items: start; }
+.ig { border-radius: 10px; overflow: hidden; background: var(--ivory); transition: transform .5s var(--ease), box-shadow .5s; }
+.ig:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 24px 50px -20px rgba(15,157,85,.7); }
+.ig iframe { display: block; width: 100%; border: 0; aspect-ratio: 9 / 20; }
+.ig--post iframe { aspect-ratio: 9 / 15; }
+.more { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.link { font-family: var(--mono); font-size: 13px; color: var(--jade-300); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color .3s; }
+.link:hover { color: var(--ivory); }
+.b-mint .link { color: var(--jade-700); }
+.b-mint .link:hover { color: var(--wine-500); }
+
 /* journalism */
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 96px); align-items: start; }
 .outlet { font-family: var(--display); font-size: clamp(52px, 8.4vw, 124px); font-weight: 600; letter-spacing: -.04em; line-height: .9; color: var(--wine-500); }
@@ -198,7 +220,7 @@ p { margin: 0; }
 .clip { position: relative; display: block; overflow: hidden; aspect-ratio: 16 / 9; background: var(--wine-700); text-decoration: none; border-radius: 6px; }
 .clip img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease), filter .5s; filter: saturate(.85) contrast(1.05); }
 .clip:hover img { transform: scale(1.09); filter: saturate(1.15); }
-.clip::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(29,4,11,.9), transparent 55%), linear-gradient(135deg, rgba(0,168,107,.35), transparent 50%); opacity: .9; transition: opacity .5s; }
+.clip::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(29,4,11,.9), transparent 55%), linear-gradient(135deg, rgba(15,157,85,.35), transparent 50%); opacity: .9; transition: opacity .5s; }
 .clip:hover::before { opacity: .55; }
 .clip__play { position: absolute; z-index: 2; left: 50%; top: 50%; width: 62px; height: 62px; margin: -31px 0 0 -31px; border-radius: 50%; background: var(--jade-400); display: grid; place-items: center; transform: scale(0); transition: transform .5s var(--ease); }
 .clip__play::after { content: ""; border-left: 15px solid var(--wine-950); border-top: 10px solid transparent; border-bottom: 10px solid transparent; margin-left: 4px; }
@@ -222,7 +244,7 @@ p { margin: 0; }
 .timeline { list-style: none; margin: 0; padding: 0; }
 .timeline li { display: grid; grid-template-columns: 220px 1fr; gap: 6px 28px; padding: 22px 0; border-top: 1px solid var(--rule); transition: padding-left .45s var(--ease), background .4s; }
 .timeline li:last-child { border-bottom: 1px solid var(--rule); }
-.timeline li:hover { padding-left: 16px; background: linear-gradient(90deg, rgba(0,168,107,.16), transparent 70%); }
+.timeline li:hover { padding-left: 16px; background: linear-gradient(90deg, rgba(15,157,85,.16), transparent 70%); }
 .timeline time { font-family: var(--mono); font-size: 13px; color: var(--jade-300); padding-top: 6px; font-variant-numeric: tabular-nums; }
 .timeline h3 { font-size: 23px; line-height: 1.2; }
 .timeline p { color: var(--ivory-dim); font-size: 15.5px; margin-top: 2px; }
@@ -256,16 +278,20 @@ p { margin: 0; }
 
 @media (max-width: 900px) {
   .hero__row, .about, .split { grid-template-columns: 1fr; }
+  .igs { grid-template-columns: repeat(3, minmax(270px, 1fr)); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; }
+  .ig { scroll-snap-align: start; }
+  .ig:hover { transform: none; }
   .grid3 { grid-template-columns: 1fr 1fr; }
   .contact__grid { grid-template-columns: 1fr 1fr; }
   .stats { grid-template-columns: 1fr 1fr; }
   .stat:nth-child(3) { padding-left: 0; border-left: 0; }
-  .stat:nth-child(n+3) { border-top: 1px solid rgba(92,236,174,.3); }
+  .stat:nth-child(n+3) { border-top: 1px solid rgba(98,226,148,.3); }
 }
 @media (max-width: 640px) {
   body { font-size: 16px; }
   .nav__links a:not(.keep) { display: none; }
-  .metrics, .grid3, .clips, .edu, .contact__grid, .contact__top { grid-template-columns: 1fr; }
+  .metrics, .grid3, .clips, .edu, .contact__grid, .contact__top, .jack { grid-template-columns: 1fr; }
+  .jack__stamp { justify-self: start; }
   .metric + .metric { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
   .timeline li { grid-template-columns: 1fr; }
   .stamp { display: none; }
@@ -376,6 +402,11 @@ p { margin: 0; }
         <p class="lede reveal">Digital content and video strategy for a 4-star hotel: social media amplification, PR copywriting, live-streaming and campaign management. I handle video production end to end, write the press releases and run live engagement.</p>
       </div>
 
+      <div class="jack reveal">
+        <span class="jack__stamp">Jack of all trades<small>(just for fun, but also true)</small></span>
+        <p>On paper I'm the intern. In practice I shoot, edit, write, run the live streams and <em>fix whatever needs fixing.</em></p>
+      </div>
+
       <div class="metrics reveal">
         <div class="metric">
           <h3>Instagram</h3>
@@ -403,6 +434,22 @@ p { margin: 0; }
         <article class="item reveal"><p class="tag">Production / Visual assets</p><h3>End-to-end content creation</h3><p>Concept, storyboard, on-site photography and videography, then post-production in CapCut and Canva.</p></article>
         <article class="item reveal"><p class="tag">Strategy / Alignment</p><h3>Business-driven marketing</h3><p>Representing marketing in strategic planning sessions so content, campaigns and PR serve the hotel's commercial goals.</p></article>
       </div>
+
+      <div class="sub reveal"><h3>Reels I shot &amp; cut</h3><p>@atriahotelmalang · Instagram</p></div>
+      <p class="lede reveal">Open Atria Hotel Malang's feed and a lot of the video you see since September 2026 is mine. Three of them, playable right here.</p>
+      <div class="igs" data-stagger>
+        <div class="ig reveal"><iframe src="https://www.instagram.com/p/Dd_OJNuuebJ/embed/" title="Atria Hotel Malang reel 1" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
+        <div class="ig reveal"><iframe src="https://www.instagram.com/p/DdJJdLTyEJn/embed/" title="Atria Hotel Malang reel 2: Community Space" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
+        <div class="ig reveal"><iframe src="https://www.instagram.com/reel/DeeQQCcPyRc/embed/" title="Atria Hotel Malang reel 3: wedding vendor" loading="lazy" allowfullscreen scrolling="no"></iframe></div>
+      </div>
+
+      <div class="sub reveal"><h3>Feed posts I worked on</h3><p>Wedding Fair · Giveaway · Kota Malang</p></div>
+      <div class="igs" data-stagger>
+        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DeOsD3QErRZ/embed/" title="Atria Hotel Malang post: Wedding Fair" loading="lazy" scrolling="no"></iframe></div>
+        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DdTi--8koG-/embed/" title="Atria Hotel Malang post: Giveaway" loading="lazy" scrolling="no"></iframe></div>
+        <div class="ig ig--post reveal"><iframe src="https://www.instagram.com/p/DdGnQ7HEvPc/embed/" title="Atria Hotel Malang post: Kota Malang" loading="lazy" scrolling="no"></iframe></div>
+      </div>
+      <div class="more reveal"><a class="btn btn--jade" href="https://www.instagram.com/atriahotelmalang/" target="_blank" rel="noopener">See the full feed <span>↗</span></a></div>
     </div>
   </section>
 
@@ -413,6 +460,7 @@ p { margin: 0; }
           <p class="tag reveal">Journalism &amp; news coverage</p>
           <p class="outlet reveal">LoNews<em>.id</em></p>
           <p class="lede reveal">An online media outlet covering campus social issues, with a focus on disability inclusion advocacy at Universitas Brawijaya. I script the news, interview the sources and document the field myself, turning complex accessibility topics into human-interest stories.</p>
+          <p class="reveal"><a class="link" href="https://lonewsdotid.wordpress.com" target="_blank" rel="noopener">lonewsdotid.wordpress.com ↗</a></p>
         </div>
         <div data-stagger>
           <article class="item reveal"><p class="tag">Article</p><h3>Disability inclusion event coverage</h3><p>Reporting on disability advocacy events at Universitas Brawijaya, featuring key source interviews.</p></article>
@@ -456,10 +504,11 @@ p { margin: 0; }
           <p>Personal channel</p>
         </div>
         <div class="clips" data-stagger>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=QMsCzA_FCfc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/QMsCzA_FCfc/hqdefault.jpg" alt="Personal channel video 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B01</b>Watch video</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=A0TwhAmdJTE" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/A0TwhAmdJTE/hqdefault.jpg" alt="Personal channel video 2" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B02</b>Watch video</span></a>
-          <a class="clip reveal" href="https://www.youtube.com/watch?v=3D9VFEqo7Sc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/3D9VFEqo7Sc/hqdefault.jpg" alt="Personal channel video 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B03</b>Watch video</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=QMsCzA_FCfc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/QMsCzA_FCfc/hqdefault.jpg" alt="Personal channel video 1" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B01</b>Video profile · Desa Argosari</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=A0TwhAmdJTE" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/A0TwhAmdJTE/hqdefault.jpg" alt="Personal channel video 2" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B02</b>Luka yang Tak Terlihat · PSA</span></a>
+          <a class="clip reveal" href="https://www.youtube.com/watch?v=3D9VFEqo7Sc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/3D9VFEqo7Sc/hqdefault.jpg" alt="Personal channel video 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B03</b>The Truth Behind Afghanistan</span></a>
         </div>
+        <div class="more reveal"><a class="link" href="https://www.youtube.com/@AnalogAuraa" target="_blank" rel="noopener">youtube.com/@AnalogAuraa ↗</a><a class="link" href="https://www.youtube.com/@muhammadreynard810" target="_blank" rel="noopener">youtube.com/@muhammadreynard810 ↗</a></div>
       </div>
     </div>
   </section>

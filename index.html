@@ -883,5 +883,38 @@ p { margin: 0; }
   document.querySelectorAll('[data-to]').forEach(function (el) { co.observe(el); });
 })();
 </script>
+<style>
+/* motion pack */
+.js .reveal{filter:blur(10px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s var(--ease);transition-delay:var(--d,0ms)}
+.js .reveal.in{filter:none}
+.js .head h2.split{clip-path:none!important;opacity:1;transform:none;filter:none}
+.split .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
+.split .w>span{display:inline-block;transform:translateY(115%) rotate(6deg);transform-origin:0 100%;transition:transform 1s cubic-bezier(.2,.9,.2,1);transition-delay:calc(var(--i)*70ms)}
+.split.in .w>span{transform:none}
+.btn{transition:color .35s,border-color .35s,transform .5s cubic-bezier(.2,.9,.2,1)}
+#rail>*,#shorts>*{transition:transform .5s cubic-bezier(.2,.9,.2,1),box-shadow .5s}
+#rail>*:hover,#shorts>*:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+#glow{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(63,174,112,.16),rgba(165,42,42,.07) 45%,transparent 70%);mix-blend-mode:screen;opacity:0;transition:opacity .6s}
+@media (hover:none),(prefers-reduced-motion:reduce){#glow{display:none}.js .reveal{filter:none}.split .w>span{transform:none}}
+</style>
+<script>
+(()=>{
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  // headings: words rise out of a mask
+  document.querySelectorAll('.head h2').forEach(h=>{let i=0;
+    const walk=n=>[...n.childNodes].forEach(c=>{if(c.nodeType==3){const f=document.createDocumentFragment();c.textContent.split(/(\s+)/).forEach(p=>{if(!p.trim()){f.append(p);return}const w=document.createElement('span');w.className='w';w.innerHTML='<span style="--i:'+(i++)+'"></span>';w.firstChild.textContent=p;f.append(w)});c.replaceWith(f)}else if(c.nodeType==1)walk(c)});
+    walk(h);h.classList.add('split');
+    new IntersectionObserver((e,o)=>e.forEach(x=>{if(x.isIntersecting){h.classList.add('in');o.disconnect()}}),{threshold:.3}).observe(h)});
+  // siblings enter one after another
+  document.querySelectorAll('.reveal').forEach(el=>{if(el.style.getPropertyValue('--d'))return;const s=[...el.parentNode.children].filter(c=>c.classList.contains('reveal'));const k=s.indexOf(el);if(k>0)el.style.setProperty('--d',Math.min(k,8)*80+'ms')});
+  if(!matchMedia('(hover:hover)').matches)return;
+  // magnetic buttons
+  document.querySelectorAll('.btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`});b.addEventListener('mouseleave',()=>b.style.transform='')});
+  // cursor light
+  const g=document.createElement('div');g.id='glow';document.body.append(g);let x=0,y=0,tx=0,ty=0;
+  addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;g.style.opacity=1});
+  (function f(){x+=(tx-x)*.12;y+=(ty-y)*.12;g.style.transform=`translate(${x}px,${y}px)`;requestAnimationFrame(f)})();
+})();
+</script>
 </body>
 </html>

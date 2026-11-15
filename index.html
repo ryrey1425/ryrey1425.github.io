@@ -510,6 +510,21 @@ p { margin: 0; }
     </div>
   </section>
 
+  <section class="band b-deep" id="journey">
+    <div class="wrap">
+      <div class="head">
+        <p class="tag reveal">How I work</p>
+        <h2 class="reveal">The journey <em>of a story</em></h2>
+      </div>
+      <ol class="steps">
+        <li class="reveal"><span>01</span><h3>Shoot</h3><p>Find the moment worth keeping, then frame it with intent: light, people, place.</p></li>
+        <li class="reveal"><span>02</span><h3>Edit</h3><p>Seven years of cutting taught me rhythm. Every second has to earn its place.</p></li>
+        <li class="reveal"><span>03</span><h3>Write</h3><p>Copy, captions, press releases and news. Words that make people stop and read.</p></li>
+        <li class="reveal"><span>04</span><h3>Publish</h3><p>Ship it, read the numbers, learn what landed and make the next one better.</p></li>
+      </ol>
+    </div>
+  </section>
+
   <section class="band b-wine" id="atria">
     <div class="wrap">
       <div class="head">
@@ -887,6 +902,26 @@ p { margin: 0; }
 /* motion pack */
 .js .reveal{filter:blur(10px);transition:opacity .9s var(--ease),transform 1s var(--ease),filter .9s var(--ease);transition-delay:var(--d,0ms)}
 .js .reveal.in{filter:none}
+.steps li,#experience .timeline li{position:relative;transition:transform .5s cubic-bezier(.2,.9,.2,1)}
+.steps li::after,#experience .timeline li::before{content:"";display:block!important;position:absolute;left:0;top:-1px;height:2px;width:100%;background:linear-gradient(90deg,var(--jade-400),var(--wine-500));transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.2,.9,.2,1)}
+.steps li:hover,#experience .timeline li:hover{transform:translateY(-6px)}
+.steps li:hover::after,#experience .timeline li:hover::before{transform:scaleX(1)}
+.steps li:hover span{color:var(--wine-500)}
+.steps span{transition:color .4s}
+.me{transition:transform .2s linear}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule)}
+.steps li{padding:32px 28px 8px 0;border-right:1px solid var(--rule);margin-right:28px}
+.steps li:last-child{border-right:0;margin-right:0}
+.steps span{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--tag)}
+.steps h3{font-size:clamp(30px,3vw,42px);margin:14px 0 12px}
+.steps p{color:var(--dim);font-size:15.5px}
+#experience .timeline{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 0 22px;margin:0;border-top:1px solid var(--rule);scrollbar-width:thin;scrollbar-color:var(--wine-500) transparent}
+#experience .timeline li{display:block;flex:0 0 min(300px,78vw);scroll-snap-align:start;padding:28px 26px 0 0;margin-right:26px;border-right:1px solid var(--rule);border-top:0}
+#experience .timeline li::after{display:none}
+#experience .timeline time{display:block;font-family:var(--display);font-size:30px;font-weight:600;color:var(--em);margin-bottom:14px;letter-spacing:-.01em}
+#experience .timeline h3{font-size:19px;margin-bottom:8px}
+@media (max-width:760px){.steps{grid-template-columns:1fr 1fr}.steps li:nth-child(2){border-right:0;margin-right:0}}
+@media (max-width:480px){.steps{grid-template-columns:1fr}.steps li{border-right:0;margin-right:0;border-bottom:1px solid var(--rule);padding-bottom:24px}}
 .js .head h2.split{clip-path:none!important;opacity:1;transform:none;filter:none}
 .split .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.12em;margin-bottom:-.12em}
 .split .w>span{display:inline-block;transform:translateY(115%) rotate(6deg);transform-origin:0 100%;transition:transform 1s cubic-bezier(.2,.9,.2,1);transition-delay:calc(var(--i)*70ms)}
@@ -906,13 +941,15 @@ p { margin: 0; }
     });
   // siblings enter one after another
   document.querySelectorAll('.reveal').forEach(el=>{if(el.style.getPropertyValue('--d'))return;const s=[...el.parentNode.children].filter(c=>c.classList.contains('reveal'));const k=s.indexOf(el);if(k>0)el.style.setProperty('--d',Math.min(k,8)*80+'ms')});
+  // photo drifts with scroll
+  const me=document.querySelector('.me');if(me)addEventListener('scroll',()=>{const r=me.getBoundingClientRect();me.style.translate=`0 ${(r.top+r.height/2-innerHeight/2)*-.08}px`},{passive:true});
   if(!matchMedia('(hover:hover)').matches)return;
-  // magnetic buttons
-  document.querySelectorAll('.btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`});b.addEventListener('mouseleave',()=>b.style.transform='')});
   // cursor light
   const g=document.createElement('div');g.id='glow';document.body.append(g);let x=0,y=0,tx=0,ty=0;
   addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;g.style.opacity=1});
   (function f(){x+=(tx-x)*.12;y+=(ty-y)*.12;g.style.transform=`translate(${x}px,${y}px)`;requestAnimationFrame(f)})();
+  // magnetic buttons
+  document.querySelectorAll('.btn').forEach(b=>{b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.35}px)`});b.addEventListener('mouseleave',()=>b.style.transform='')});
 })();
 </script>
 </body>

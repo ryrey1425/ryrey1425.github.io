@@ -207,7 +207,7 @@ p { margin: 0; }
 @keyframes rise { from { transform: translateY(108%) rotate(4deg); } }
 .stamp { position: absolute; right: clamp(0px, 3vw, 40px); top: clamp(-8px, 1vw, 20px); width: clamp(104px, 15vw, 178px); aspect-ratio: 1; animation: fade 1s ease both .9s; }
 .stamp svg { width: 100%; height: 100%; animation: spin 22s linear infinite; }
-.stamp text { font-family: var(--mono); font-size: 10.6px; letter-spacing: .2em; fill: var(--jade-300); text-transform: uppercase; }
+.stamp text { font-family: var(--mono); font-size: 10.2px; letter-spacing: 0; fill: var(--jade-300); text-transform: uppercase; }
 .stamp b { position: absolute; inset: 0; display: grid; place-items: center; font-size: clamp(26px, 4vw, 44px); color: var(--jade-400); font-weight: 400; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -427,6 +427,80 @@ p { margin: 0; }
 <body>
 
 <canvas id="sky" aria-hidden="true"></canvas>
+<canvas id="planets" aria-hidden="true"></canvas>
+<div id="aura" aria-hidden="true"></div>
+<style>#planets{position:fixed;inset:0;width:100%;height:100%;z-index:39;pointer-events:none;mix-blend-mode:screen;opacity:.6}
+#aura{position:fixed;inset:-25%;z-index:38;pointer-events:none;mix-blend-mode:screen;opacity:.4;filter:blur(30px);background:radial-gradient(34% 30% at 22% 30%,rgba(63,174,112,.32),transparent 70%),radial-gradient(36% 32% at 80% 72%,rgba(165,42,42,.4),transparent 70%),radial-gradient(22% 20% at 62% 22%,rgba(248,241,231,.1),transparent 70%);animation:aura 30s ease-in-out infinite alternate}
+@keyframes aura{to{transform:translate(6%,-5%) rotate(9deg) scale(1.12)}}
+@media (prefers-reduced-motion:reduce){#aura{animation:none}}
+/* clean pass: one continuous backdrop instead of hard colour steps between sections */
+body{background:linear-gradient(180deg,#1d040b 0%,#0e2217 22%,#1d040b 46%,#102a1c 70%,#1d040b 100%)}
+.b-wine,.b-deep,.b-green,.hero{background:transparent}
+.b-wine::before,.b-deep::before,.b-green::before,.b-wine::after,.b-deep::after,.b-green::after{display:none}
+.hero__row{align-items:start;margin-top:clamp(18px,2.4vw,34px)}
+/* LoNews: warm burgundy wash that fades in and out, ivory wordmark */
+#journalism{background:linear-gradient(180deg,transparent,rgba(110,20,35,.6) 16%,rgba(92,15,39,.62) 84%,transparent)}
+#journalism .outlet{color:var(--ivory)}#journalism .outlet em{color:var(--jade-300)}
+#journalism .art{border-color:rgba(248,241,231,.16)}
+/* glass cards borrowed from the Orbit page */
+.steps{gap:16px}
+.steps li{border:1px solid rgba(248,241,231,.12)!important;border-radius:22px;padding:28px 26px!important;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.015));position:relative;overflow:hidden}
+.steps li::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(260px circle at var(--x,50%) var(--y,0%),rgba(143,224,176,.16),transparent 70%);opacity:0;transition:opacity .4s}
+.steps li:hover{border-color:rgba(143,224,176,.45)!important}.steps li:hover::after{opacity:1}</style>
+<script>addEventListener('DOMContentLoaded',function(){document.querySelectorAll('.steps li').forEach(function(k){k.addEventListener('pointermove',function(e){var b=k.getBoundingClientRect();k.style.setProperty('--x',e.clientX-b.left+'px');k.style.setProperty('--y',e.clientY-b.top+'px')})})});</script>
+<script>
+/* planets: emerald + burgundy, drifting behind the content (screen-blended, so text stays readable) */
+(function(){
+var cv=document.getElementById('planets'),c=cv.getContext('2d'),RM=matchMedia('(prefers-reduced-motion:reduce)').matches,W,H,D,sy=0,mx=0,my=0,tx=0,ty=0;
+function R(a,b){return a+Math.random()*(b-a)}
+var G=['#8fe0b0','#2e8b57','#0b2417'],B=['#e08a80','#a52a2a','#2a070c'],M=['#c96a6a','#6e1423','#1c0508'];
+var P=[
+ {x:.9,y:.2,r:.17,d:.2,c:G,glow:'rgba(46,139,87,.3)',tilt:-.35,s:.11,o:0,n:6,moons:[{R:1.8,s:.5,o:1,r:.09},{R:2.5,s:.28,o:4,r:.05}]},
+ {x:.06,y:.95,r:.1,d:.33,c:B,glow:'rgba(165,42,42,.3)',tilt:.45,s:.16,o:2,n:4,ring:'rgba(224,150,140,.6)',moons:[]},
+ {x:.95,y:1.5,r:.22,d:.42,c:M,glow:'rgba(110,20,35,.35)',tilt:.2,s:.08,o:1,n:8,ring:'rgba(143,224,176,.45)',moons:[{R:2.6,s:.35,o:0,r:.06}]},
+ {x:.05,y:2.3,r:.13,d:.5,c:G,glow:'rgba(46,139,87,.3)',tilt:.15,s:.1,o:5,n:5,moons:[{R:1.9,s:.6,o:3,r:.08}]},
+ {x:.92,y:3.6,r:.09,d:.62,c:B,glow:'rgba(165,42,42,.3)',tilt:-.2,s:.14,o:3,n:3,moons:[{R:2,s:.8,o:2,r:.12}]},
+ {x:.08,y:5.2,r:.19,d:.75,c:G,glow:'rgba(46,139,87,.28)',tilt:-.3,s:.09,o:4,n:7,ring:'rgba(165,42,42,.55)',moons:[]}
+];
+P.forEach(function(p){p.b=[];for(var i=0;i<p.n;i++)p.b.push({y:-1+2*(i+R(.1,.9))/p.n,h:R(.05,.22),a:R(.06,.18),p:R(0,6),l:Math.random()>.5})});
+function size(){D=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*D;cv.height=H*D;c.setTransform(D,0,0,D,0,0)}
+function ball(x,y,r,k){var g=c.createRadialGradient(x-r*.45,y-r*.45,r*.05,x-r*.2,y-r*.2,r*1.5);g.addColorStop(0,k[0]);g.addColorStop(.55,k[1]);g.addColorStop(1,k[2]);return g}
+function ring(x,y,r,p,a0,a1){c.save();c.translate(x,y);c.rotate(p.tilt);c.scale(1,.26);c.strokeStyle=p.ring;c.lineWidth=r*.34;c.globalAlpha=.75;c.beginPath();c.arc(0,0,r*1.85,a0,a1);c.stroke();c.lineWidth=r*.07;c.globalAlpha=.5;c.beginPath();c.arc(0,0,r*2.25,a0,a1);c.stroke();c.restore()}
+function moon(x,y,r,m,t,f){var a=t*m.s+m.o,s=Math.sin(a);if((s>0)!==f)return;var X=x+Math.cos(a)*r*m.R,Y=y+s*r*m.R*.3,q=r*m.r*(1+s*.15);c.fillStyle=ball(X,Y,q,['#f8f1e7','#d8c4c1','#1c0508']);c.beginPath();c.arc(X,Y,q,0,6.3);c.fill()}
+function planet(p,t){var r=p.r*Math.min(W,H),x=p.x*W+mx*p.d*50+Math.sin(t*p.s+p.o)*16,y=p.y*H-sy*p.d+my*p.d*50+Math.cos(t*p.s*.8+p.o)*12,g,i,b;
+ if(y<-r*3.5||y>H+r*3.5)return;
+ g=c.createRadialGradient(x,y,r*.7,x,y,r*2.4);g.addColorStop(0,p.glow);g.addColorStop(1,'transparent');c.fillStyle=g;c.fillRect(x-r*2.5,y-r*2.5,r*5,r*5);
+ for(i=0;i<p.moons.length;i++)moon(x,y,r,p.moons[i],t,false);
+ if(p.ring)ring(x,y,r,p,Math.PI,Math.PI*2);
+ c.save();c.beginPath();c.arc(x,y,r,0,6.3);c.clip();c.fillStyle=ball(x,y,r,p.c);c.fillRect(x-r,y-r,r*2,r*2);c.translate(x,y);c.rotate(p.tilt);
+ for(i=0;i<p.b.length;i++){b=p.b[i];c.fillStyle=b.l?'rgba(255,255,255,'+b.a+')':'rgba(0,0,0,'+b.a*1.4+')';c.beginPath();c.ellipse(Math.sin(t*.15+b.p)*r*.12,b.y*r,r*1.3,b.h*r*.5,0,0,6.3);c.fill()}
+ c.rotate(-p.tilt);g=c.createRadialGradient(-r*.4,-r*.4,r*.9,-r*.1,-r*.1,r*1.5);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(.6,'rgba(0,0,0,.3)');g.addColorStop(1,'rgba(0,0,0,.85)');c.fillStyle=g;c.fillRect(-r,-r,r*2,r*2);c.restore();
+ if(p.ring)ring(x,y,r,p,0,Math.PI);
+ for(i=0;i<p.moons.length;i++)moon(x,y,r,p.moons[i],t,true)}
+// soft stars (a few with a cross flare), shooting stars and two black holes
+var S=[],BH=[{x:.8,y:1.02,r:.05,d:.28,tilt:-.3,o:0},{x:.16,y:3.05,r:.065,d:.55,tilt:.35,o:3}],sh=null,nx=4,i0;
+for(i0=0;i0<90;i0++)S.push({x:Math.random(),y:Math.random(),z:R(.3,1),r:R(.5,1.7),tw:R(.3,1.1),p:R(0,6.3),f:Math.random()>.86});
+function starsDraw(t){for(var i=0;i<S.length;i++){var s=S[i],y=((s.y*H-sy*s.z*.12)%H+H)%H,x=s.x*W+mx*s.z*24,a=(.2+.8*(.5+.5*Math.sin(t*s.tw+s.p)))*s.z,r=s.r*s.z;
+ c.fillStyle=s.p>5.2?'#8fe0b0':s.p<.7?'#e08a80':'#f8f1e7';c.globalAlpha=a*.14;c.beginPath();c.arc(x,y,r*4.5,0,6.3);c.fill();c.globalAlpha=a;c.beginPath();c.arc(x,y,r,0,6.3);c.fill();
+ if(s.f){c.strokeStyle=c.fillStyle;c.lineWidth=.7;c.globalAlpha=a*.7;var L=r*9*a;c.beginPath();c.moveTo(x-L,y);c.lineTo(x+L,y);c.moveTo(x,y-L);c.lineTo(x,y+L);c.stroke()}}
+ c.globalAlpha=1;
+ if(!sh&&t>nx)sh={x:R(.1,.9)*W,y:R(0,.45)*H,a:R(.25,.8),l:0};
+ if(sh){sh.l+=.012;var k=sh.l*1100,dx=Math.cos(sh.a),dy=Math.sin(sh.a),X=sh.x+dx*k,Y=sh.y+dy*k,g=c.createLinearGradient(X,Y,X-dx*300,Y-dy*300);g.addColorStop(0,'rgba(248,241,231,'+Math.sin(sh.l*Math.PI)+')');g.addColorStop(1,'transparent');c.strokeStyle=g;c.lineWidth=1.5;c.beginPath();c.moveTo(X,Y);c.lineTo(X-dx*300,Y-dy*300);c.stroke();if(sh.l>=1){sh=null;nx=t+R(5,11)}}}
+function hole(b,t){var r=b.r*Math.min(W,H),x=b.x*W+mx*b.d*50+Math.sin(t*.07+b.o)*14,y=b.y*H-sy*b.d+my*b.d*50+Math.cos(t*.06+b.o)*10,g,k,pu=.85+.15*Math.sin(t*.8+b.o);
+ if(y<-r*5||y>H+r*5)return;
+ g=c.createRadialGradient(x,y,r,x,y,r*5.5);g.addColorStop(0,'rgba(165,42,42,.38)');g.addColorStop(.45,'rgba(46,139,87,.14)');g.addColorStop(1,'transparent');c.fillStyle=g;c.fillRect(x-r*6,y-r*6,r*12,r*12);
+ function disk(a0,a1){c.save();c.translate(x,y);c.rotate(b.tilt);c.scale(1,.3);var q='#f8f1e7';if(c.createConicGradient){q=c.createConicGradient(t*.35+b.o,0,0);q.addColorStop(0,'rgba(248,241,231,.95)');q.addColorStop(.22,'rgba(143,224,176,.6)');q.addColorStop(.5,'rgba(165,42,42,.55)');q.addColorStop(.78,'rgba(46,139,87,.25)');q.addColorStop(1,'rgba(248,241,231,.95)')}
+  c.strokeStyle=q;for(k=0;k<5;k++){c.globalAlpha=.9-k*.17;c.lineWidth=r*.3;c.beginPath();c.arc(0,0,r*(1.6+k*.33),a0,a1);c.stroke()}c.restore();c.globalAlpha=1}
+ disk(Math.PI,Math.PI*2);
+ c.strokeStyle='#f8f1e7';c.globalAlpha=.16*pu;c.lineWidth=r*.55;c.beginPath();c.arc(x,y,r*1.3,0,6.3);c.stroke();c.globalAlpha=.85*pu;c.lineWidth=r*.09;c.beginPath();c.arc(x,y,r*1.14,0,6.3);c.stroke();c.globalAlpha=1;
+ c.globalCompositeOperation='destination-out';c.beginPath();c.arc(x,y,r*1.08,0,6.3);c.fill();c.globalCompositeOperation='source-over';
+ disk(0,Math.PI)}
+function frame(ms){var t=ms/1000,i;mx+=(tx-mx)*.05;my+=(ty-my)*.05;c.clearRect(0,0,W,H);starsDraw(t);for(i=0;i<BH.length;i++)hole(BH[i],t);for(i=0;i<P.length;i++)planet(P[i],t);if(!RM)requestAnimationFrame(frame)}
+addEventListener('resize',size);addEventListener('scroll',function(){sy=scrollY;if(RM)frame(0)},{passive:true});
+addEventListener('pointermove',function(e){tx=e.clientX/W-.5;ty=e.clientY/H-.5});
+size();requestAnimationFrame(frame);
+})();
+</script>
 <div class="progress" id="progress"></div>
 
 <header class="nav">
@@ -435,8 +509,8 @@ p { margin: 0; }
     <nav class="nav__links" aria-label="Sections">
       <a href="#about">About</a>
       <a href="#atria">Atria Hotel</a>
-      <a href="#journalism">Journalism</a>
       <a href="#video">Video</a>
+      <a href="#journalism">Journalism</a>
       <a href="#writing">Writing</a>
       <a href="#experience">Experience</a>
       <a class="keep" href="#contact">Contact</a>
@@ -460,11 +534,11 @@ p { margin: 0; }
           <span class="line"><span>Muhammad</span></span>
           <span class="line"><span>Reynard.</span></span>
           <span class="stamp" aria-hidden="true">
-            <svg viewBox="0 0 200 200"><defs><path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#ring">Photographer · Videographer · Writer · Malang, ID · </textPath></text></svg>
+            <svg viewBox="0 0 200 200"><defs><path id="ring" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs><text><textPath href="#ring" textLength="489" lengthAdjust="spacing">Video Editor · Videographer · Writer · Based in Indonesia ·</textPath></text></svg><b>✦</b>
           </span>
         </h1>
         <div class="hero__row">
-          <p class="hero__roles">Photographer, videographer &amp; writer based in Malang, Indonesia.</p>
+          <p class="hero__roles">Video editor, videographer &amp; writer based in Indonesia.</p>
           <div>
             <p class="hero__intro">Communication Studies student at Universitas Brawijaya. I make video, photos and words that get watched, read and shared, for a 4-star hotel by day and my own channels by night.</p>
             <div class="cta">
@@ -591,32 +665,6 @@ p { margin: 0; }
     </div>
   </section>
 
-  <section class="band b-mint" id="journalism">
-    <div class="wrap">
-      <div class="split">
-        <div class="head" style="margin-bottom:0">
-          <p class="tag reveal">Journalism &amp; news coverage</p>
-          <p class="outlet reveal">LoNews<em>.id</em></p>
-          <p class="tag reveal">"We Provide Local News For Indonesia"</p>
-          <p class="lede reveal">An online media outlet covering campus social issues, with a focus on disability inclusion advocacy at Universitas Brawijaya. I script the news, interview the sources and document the field myself, turning complex accessibility topics into human-interest stories.</p>
-          <p class="reveal"><a class="link" href="https://lonewsdotid.wordpress.com" target="_blank" rel="noopener">lonewsdotid.wordpress.com ↗</a></p>
-        </div>
-        <div>
-          <p class="tag reveal">7 articles under my byline · Oct–Nov 2024</p>
-          <div class="arts" data-stagger style="margin-top:14px">
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kisah-teman-tuli-marsha-dari-dunia-sunyi-ke-suara-hati/" target="_blank" rel="noopener"><p class="tag">Profile · 22 Nov 2024</p><h3>Kisah Teman Tuli Marsha, dari Dunia Sunyi ke Suara Hati</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kelas-isyarat-belajar-bahasa-isyarat-dan-membangun-lingkungan-inklusif/" target="_blank" rel="noopener"><p class="tag">Feature · 22 Nov 2024</p><h3>Kelas Isyarat: Belajar Bahasa Isyarat dan Membangun Lingkungan Inklusif</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/lukisan-mural-pemberdayaan-wadah-temu-inklusif-bagi-teman-teman-disabilitas/" target="_blank" rel="noopener"><p class="tag">Event coverage · 22 Nov 2024</p><h3>Lukisan Mural Pemberdayaan: Wadah Temu Inklusif bagi Teman-Teman Disabilitas</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/keajaiban-kolaborasi/" target="_blank" rel="noopener"><p class="tag">Report · 29 Oct 2024</p><h3>Formapi Goes to Faculty: Katanya Kampus Inklusif, kok Mahasiswanya Kurang Peduli?</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/mencapai-pertumbuhan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Temu Inklusif 2.0 di FISIP UB: Mahasiswa Disabilitas Tampilkan Booth Kreatif</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/melampaui-hambatan/" target="_blank" rel="noopener"><p class="tag">Review · 29 Oct 2024</p><h3>Pameran Seni Inklusivitas: Ruang untuk Kesetaraan dan Penghargaan Budaya</h3><span>↗</span></a>
-            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/seni-menjalin-hubungan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Artspace Inclusign Ajak Mahasiswa Kenali Bahasa Isyarat</h3><span>↗</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="band b-deep" id="video">
     <div class="wrap">
       <div class="head">
@@ -661,6 +709,32 @@ p { margin: 0; }
           <a class="clip reveal" href="https://www.youtube.com/watch?v=3D9VFEqo7Sc" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/3D9VFEqo7Sc/hqdefault.jpg" alt="Personal channel video 3" loading="lazy"><i class="clip__play"></i><span class="clip__label"><b>B03</b>The Truth Behind Afghanistan</span></a>
         </div>
         <div class="more reveal"><a class="link" href="https://www.youtube.com/@AnalogAuraa" target="_blank" rel="noopener">youtube.com/@AnalogAuraa ↗</a><a class="link" href="https://www.youtube.com/@muhammadreynard810" target="_blank" rel="noopener">youtube.com/@muhammadreynard810 ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band b-deep" id="journalism">
+    <div class="wrap">
+      <div class="split">
+        <div class="head" style="margin-bottom:0">
+          <p class="tag reveal">Journalism &amp; news coverage</p>
+          <p class="outlet reveal" style="display:flex;align-items:center;gap:.35em"><img src="https://lonewsdotid.wordpress.com/wp-content/uploads/2024/10/cdwq.png?w=200" alt="LoNews.id logo" width="72" height="72" loading="lazy" style="width:clamp(52px,6vw,76px);height:auto;border-radius:16px;background:#fff;padding:6px;box-shadow:0 10px 30px rgba(0,0,0,.35)"><span>LoNews<em>.id</em></span></p>
+          <p class="tag reveal">"We Provide Local News For Indonesia"</p>
+          <p class="lede reveal">An online media outlet covering campus social issues, with a focus on disability inclusion advocacy at Universitas Brawijaya. I script the news, interview the sources and document the field myself, turning complex accessibility topics into human-interest stories.</p>
+          <p class="reveal"><a class="link" href="https://lonewsdotid.wordpress.com" target="_blank" rel="noopener">lonewsdotid.wordpress.com ↗</a></p>
+        </div>
+        <div>
+          <p class="tag reveal">7 articles under my byline · Oct–Nov 2024</p>
+          <div class="arts" data-stagger style="margin-top:14px">
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kisah-teman-tuli-marsha-dari-dunia-sunyi-ke-suara-hati/" target="_blank" rel="noopener"><p class="tag">Profile · 22 Nov 2024</p><h3>Kisah Teman Tuli Marsha, dari Dunia Sunyi ke Suara Hati</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/kelas-isyarat-belajar-bahasa-isyarat-dan-membangun-lingkungan-inklusif/" target="_blank" rel="noopener"><p class="tag">Feature · 22 Nov 2024</p><h3>Kelas Isyarat: Belajar Bahasa Isyarat dan Membangun Lingkungan Inklusif</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/11/22/lukisan-mural-pemberdayaan-wadah-temu-inklusif-bagi-teman-teman-disabilitas/" target="_blank" rel="noopener"><p class="tag">Event coverage · 22 Nov 2024</p><h3>Lukisan Mural Pemberdayaan: Wadah Temu Inklusif bagi Teman-Teman Disabilitas</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/keajaiban-kolaborasi/" target="_blank" rel="noopener"><p class="tag">Report · 29 Oct 2024</p><h3>Formapi Goes to Faculty: Katanya Kampus Inklusif, kok Mahasiswanya Kurang Peduli?</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/mencapai-pertumbuhan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Temu Inklusif 2.0 di FISIP UB: Mahasiswa Disabilitas Tampilkan Booth Kreatif</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/melampaui-hambatan/" target="_blank" rel="noopener"><p class="tag">Review · 29 Oct 2024</p><h3>Pameran Seni Inklusivitas: Ruang untuk Kesetaraan dan Penghargaan Budaya</h3><span>↗</span></a>
+            <a class="art reveal" href="https://lonewsdotid.wordpress.com/2024/10/29/seni-menjalin-hubungan/" target="_blank" rel="noopener"><p class="tag">Event coverage + photo · 29 Oct 2024</p><h3>Artspace Inclusign Ajak Mahasiswa Kenali Bahasa Isyarat</h3><span>↗</span></a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -914,10 +988,11 @@ p { margin: 0; }
   <canvas id="in-sky"></canvas>
   <div class="in-f"><i></i><i></i><i></i><i></i></div>
   <div class="in-top"><span class="in-rec"></span>REC <b id="in-tc">00:00:00:00</b></div>
+  <div class="in-o"><i></i></div><div class="in-o b"><i></i></div>
   <div class="in-c">
-    <div class="in-r"><div id="in-roll"><span>Photographer</span><span>Videographer</span><span>Writer</span><span>Storyteller</span></div></div>
+    <div class="in-r"><div id="in-roll"><span>Video Editor</span><span>Videographer</span><span>Writer</span><span>Based in Indonesia</span></div></div>
     <h2 class="in-n"><span class="l"><span>Muhammad</span> <span>Reynard</span></span><span class="l"><em>Fawwaz</em> <em>Nuriansyah.</em></span></h2>
-    <div class="in-meta"><span>Malang, ID</span><div class="in-bar"><b></b></div><span id="in-p">000</span></div>
+    <div class="in-meta"><span>Indonesia</span><div class="in-bar"><b></b></div><span id="in-p">000</span></div>
   </div>
   <p class="in-skip">Click to skip</p>
 </div>
@@ -931,7 +1006,7 @@ p { margin: 0; }
 .in-f i{position:absolute;width:34px;height:34px;border:2px solid var(--jade-300)}
 .in-f i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}.in-f i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
 .in-f i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}.in-f i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
-.in-top{position:absolute;top:clamp(30px,6vw,70px);left:clamp(34px,6vw,78px);font:500 12px var(--mono);letter-spacing:.2em;display:flex;align-items:center;gap:10px;opacity:0;animation:fade .6s ease forwards .3s}
+.in-top{position:absolute;top:clamp(30px,6vw,70px);left:clamp(34px,6vw,78px);font:500 12px var(--mono);letter-spacing:.2em;display:flex;align-items:center;gap:10px;opacity:0;animation:inFade .6s ease forwards .3s}
 .in-top b{font-weight:500;color:var(--jade-300)}
 .in-rec{width:9px;height:9px;border-radius:50%;background:#e0443e;animation:blink 1s steps(2) infinite}
 .in-c{position:relative;text-align:center;padding:0 20px;transition:transform 1.2s cubic-bezier(.76,0,.24,1),opacity .6s}
@@ -944,11 +1019,30 @@ p { margin: 0; }
 .in-n .l>:nth-child(1){animation-delay:.55s}.in-n .l>:nth-child(2){animation-delay:.68s}
 .in-n .l+.l>:nth-child(1){animation-delay:.85s}.in-n .l+.l>:nth-child(2){animation-delay:.98s}
 .in-n em{font-weight:400;color:var(--jade-300)}
-.in-meta{display:flex;align-items:center;justify-content:center;gap:18px;font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ivory-dim);opacity:0;animation:fade .6s ease forwards 1.1s}
+.in-meta{display:flex;align-items:center;justify-content:center;gap:18px;font:500 12px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--ivory-dim);opacity:0;animation:inFade .6s ease forwards 1.1s}
 .in-bar{width:min(260px,36vw);height:2px;background:rgba(248,241,231,.15);overflow:hidden}
 .in-bar b{display:block;height:100%;background:linear-gradient(90deg,var(--jade-400),var(--wine-500));transform:scaleX(0);transform-origin:left;animation:inUp 2s cubic-bezier(.65,0,.35,1) forwards 1.1s}
-.in-skip{position:absolute;bottom:clamp(30px,6vw,70px);font:500 11px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--ivory-dim);opacity:0;animation:fade .6s ease forwards 1.6s}
+.in-skip{position:absolute;bottom:clamp(30px,6vw,70px);font:500 11px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--ivory-dim);opacity:0;animation:inFade .6s ease forwards 1.6s}
 @keyframes inUp{to{transform:none}}@keyframes inF{from{transform:scale(1.15);opacity:0}}@keyframes blink{50%{opacity:0}}
+/* richer intro: orbit rings, soft-focus name, focus-lock brackets, light sweep */
+.in-o{position:absolute;left:50%;top:50%;width:min(96vw,1040px);aspect-ratio:1;transform:translate(-50%,-50%) rotate(-12deg) scaleY(.3);opacity:0;animation:inO 1.6s cubic-bezier(.2,.9,.2,1) forwards .5s;pointer-events:none;transition:opacity .5s}
+.in-o.b{width:min(74vw,800px);transform:translate(-50%,-50%) rotate(16deg) scaleY(.34);animation-delay:.75s}
+.in-o i{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(143,224,176,.28);animation:inSpin 7s linear infinite}
+.in-o.b i{border-color:rgba(224,138,128,.3);animation-duration:9s;animation-direction:reverse}
+.in-o i::after{content:"";position:absolute;left:50%;top:-7px;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--jade-300);box-shadow:0 0 22px 6px rgba(143,224,176,.6)}
+.in-o.b i::after{background:#e08a80;box-shadow:0 0 22px 6px rgba(165,42,42,.7)}
+#intro.go .in-o{opacity:0!important;animation:none}
+.in-c::before{content:"";position:absolute;inset:-30% -10%;z-index:-1;background:radial-gradient(closest-side,rgba(46,139,87,.38),transparent);opacity:0;animation:inGlow 2.4s ease-out forwards .5s}
+.in-n .l>*{filter:blur(14px);animation-name:inN}
+.in-f{animation:inF 1.2s cubic-bezier(.2,.9,.2,1) both,inLock .6s cubic-bezier(.3,1.6,.5,1) 1.75s}
+#intro::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 42%,rgba(248,241,231,.16) 50%,transparent 58%) 160% 0/300% 100% no-repeat;animation:inSweep 1.3s ease-in-out 1.5s}
+@keyframes inFade{to{opacity:1}}
+@keyframes inN{to{transform:none;filter:none}}
+@keyframes inO{from{opacity:0;width:20vw}to{opacity:1}}
+@keyframes inSpin{to{transform:rotate(360deg)}}
+@keyframes inGlow{40%{opacity:1}to{opacity:.55;transform:scale(1.15)}}
+@keyframes inLock{40%{transform:scale(.965);filter:brightness(2)}}
+@keyframes inSweep{to{background-position:-60% 0}}
 #intro.done{display:none}
 @media (prefers-reduced-motion:reduce){#intro{display:none}}
 </style>
@@ -959,7 +1053,18 @@ document.documentElement.style.overflow='hidden';const t0=performance.now(),p=do
 const cv=document.getElementById('in-sky'),g=cv.getContext('2d'),dpr=Math.min(2,devicePixelRatio||1);let W,H;const st=[...Array(140)].map(()=>[Math.random(),Math.random(),Math.random()*.8+.2,Math.random()*6]);
 const rs=()=>{W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr};rs();addEventListener('resize',rs);
 let run=true;(function f(){if(!run)return;const s=(performance.now()-t0)/1000;g.clearRect(0,0,W,H);
-  st.forEach(([x,y,z,o])=>{const k=1+s*.06*z,px=(x-.5)*W*k+W/2,py=(y-.5)*H*k+H/2;g.globalAlpha=z*(.4+.6*Math.abs(Math.sin(s*2+o)));g.fillStyle=o>5?'#8fe0b0':'#f8f1e7';g.beginPath();g.arc(px,py,z*1.6*dpr,0,7);g.fill()});
+  // warp-in: stars streak out from the centre, then settle into a slow drift
+  const ex=Math.exp(-3*s);g.lineCap='round';
+  st.forEach(([x,y,z,o])=>{const k=.25+z*(.95*(1-ex)+s*.05),dk=z*(2.85*ex+.05)*.07,px=(x-.5)*W*k+W/2,py=(y-.5)*H*k+H/2;g.globalAlpha=z*(.4+.6*Math.abs(Math.sin(s*2+o)));g.strokeStyle=o>5?'#8fe0b0':o<.6?'#e08a80':'#f8f1e7';g.lineWidth=z*2.4*dpr;g.beginPath();g.moveTo((x-.5)*W*(k-dk)+W/2,(y-.5)*H*(k-dk)+H/2);g.lineTo(px,py);g.stroke()});
+  // two planets glide in: emerald from below, burgundy with a ring from above
+  g.globalAlpha=1;const e=1-Math.pow(1-Math.min(1,s/2),3),U=Math.min(W,H);
+  [[W*.1,H*(1.3-.28*e),U*.36,['#8fe0b0','#2e8b57','#06120b'],0],[W*.9,H*(-.18+.34*e),U*.11,['#e08a80','#a52a2a','#2a070c'],1]].forEach(([x,y,r,c,rg])=>{
+    let q=g.createRadialGradient(x,y,r*.7,x,y,r*2.2);q.addColorStop(0,c[1]+'55');q.addColorStop(1,'transparent');g.fillStyle=q;g.fillRect(x-r*2.3,y-r*2.3,r*4.6,r*4.6);
+    const rn=(a,b)=>{g.save();g.translate(x,y);g.rotate(.4);g.scale(1,.26);g.strokeStyle='rgba(143,224,176,.55)';g.lineWidth=r*.3;g.beginPath();g.arc(0,0,r*1.85,a,b);g.stroke();g.restore()};
+    if(rg)rn(Math.PI,Math.PI*2);
+    q=g.createRadialGradient(x-r*.45,y-r*.45,r*.05,x-r*.2,y-r*.2,r*1.5);q.addColorStop(0,c[0]);q.addColorStop(.55,c[1]);q.addColorStop(1,c[2]);g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill();
+    g.save();g.beginPath();g.arc(x,y,r,0,7);g.clip();g.fillStyle='rgba(255,255,255,.1)';for(let i=-2;i<3;i++){g.beginPath();g.ellipse(x+Math.sin(s*.6+i)*r*.1,y+i*r*.34,r*1.3,r*.07,-.3,0,7);g.fill()}g.restore();
+    if(rg)rn(0,Math.PI)});
   const k=Math.min(1,Math.max(0,(s-1.1)/2));p.textContent=String(Math.round(k*100)).padStart(3,'0');
   tc.textContent='00:00:'+String(Math.floor(s)).padStart(2,'0')+':'+String(Math.floor(s%1*25)).padStart(2,'0');
   roll.style.transform=`translateY(-${Math.min(3,Math.floor(Math.max(0,s-.3)/.55))*1.4}em)`;requestAnimationFrame(f)})();
